@@ -1,0 +1,104 @@
+---
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import { defaultLocale, locales, useTranslations, type Locale } from '~/i18n';
+import { profile } from '~/data/profile';
+import photo from '~/assets/profile.jpg';
+import '~/styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Locale-independent path, e.g. '' for home or 'projects/foo'. */
+  path?: string;
+}
+
+const { locale, title, description, path = '' } = Astro.props;
+const t = useTranslations(locale);
+const canonical = getAbsoluteLocaleUrl(locale, path);
+const alternates = locales.map((l) => ({ locale: l, href: getAbsoluteLocaleUrl(l, path) }));
+const sameAs = [profile.github, profile.linkedin].filter(Boolean);
+const image = new URL(photo.src, Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${getAbsoluteLocaleUrl(defaultLocale, '')}#person`,
+      name: profile.name,
+      jobTitle: profile.jobTitle,
+      image,
+      url: canonical,
+      ...(sameAs.length && { sameAs }),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: profile.location.city,
+        addressRegion: profile.location.region[locale],
+        addressCountry: profile.location.countryCode,
+      },
+      knowsLanguage: ['it', 'ro', 'en'],
+    },
+    {
+      '@type': 'WebSite',
+      name: profile.name,
+      url: getAbsoluteLocaleUrl(locale, ''),
+      inLanguage: locale,
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e1014" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
+    <!-- Runs before first paint so the page never flashes the wrong theme. -->
+    <script is:inline>
+      (() => {
+        let saved;
+        try {
+          saved = localStorage.getItem('theme');
+        } catch {}
+        document.documentElement.dataset.theme =
+          saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      })();
+    </script>
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.locale} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLocale, path)} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    {
+      locales
+        .filter((l) => l !== locale)
+        .map((l) => <meta property="og:locale:alternate" content={useTranslations(l).meta.ogLocale} />)
+    }
+    <meta property="og:image" content={image} />
+    <meta property="og:image:alt" content={profile.name} />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-sm focus:bg-fg focus:px-3 focus:py-2 focus:text-bg"
+    >
+      {t.a11y.skipToContent}
+    </a>
+    <slot />
+  </body>
+</html>

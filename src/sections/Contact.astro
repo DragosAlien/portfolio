@@ -1,0 +1,44 @@
+---
+import { useTranslations, type Locale } from '~/i18n';
+import { profile, publicFile, socialLinks } from '~/data/profile';
+import Section from '~/components/Section.astro';
+import ExternalLink from '~/components/ExternalLink.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const cv = publicFile(profile.cv[locale]);
+
+type Row = { label: string; href: string; text: string; kind: 'mail' | 'external' | 'download' };
+const rows: Row[] = [
+  ...(profile.email ? [{ label: t.contact.email, href: `mailto:${profile.email}`, text: profile.email, kind: 'mail' as const }] : []),
+  ...socialLinks.map((s) => ({ label: s.label, href: s.href, text: s.handle, kind: 'external' as const })),
+  ...(cv ? [{ label: 'CV', href: cv, text: `${t.hero.downloadCv} (PDF)`, kind: 'download' as const }] : []),
+];
+---
+
+<Section id="contact" heading={t.contact.heading}>
+  <p class="max-w-measure text-balance">{t.contact.body}</p>
+  <dl class="mt-8 space-y-4 text-sm sm:space-y-2">
+    {
+      rows.map((r) => (
+        <div class="flex flex-col sm:flex-row sm:gap-6">
+          <dt class="w-24 shrink-0 font-mono text-meta leading-6 text-muted">{r.label}</dt>
+          <dd class="min-w-0 break-words">
+            {r.kind === 'external' ? (
+              <ExternalLink href={r.href} newTabLabel={t.a11y.opensInNewTab} class="link">
+                {r.text}
+              </ExternalLink>
+            ) : (
+              <a href={r.href} download={r.kind === 'download' || undefined} class="link">
+                {r.text}
+              </a>
+            )}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>

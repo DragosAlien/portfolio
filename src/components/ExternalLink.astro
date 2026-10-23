@@ -1,0 +1,18 @@
+---
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+
+interface Props {
+  href: string;
+  /** Localized "(opens in a new tab)" hint for screen readers. */
+  newTabLabel: string;
+  class?: string;
+}
+
+const { href, newTabLabel, class: className } = Astro.props;
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class:list={['group inline-flex items-center gap-1', className]}>
+  <slot />
+  <ArrowUpRight size={14} aria-hidden="true" class="text-muted transition-colors duration-150 group-hover:text-fg" />
+  <span class="sr-only">{newTabLabel}</span>
+</a>

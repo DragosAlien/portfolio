@@ -1,0 +1,41 @@
+---
+import { useTranslations, type Locale } from '~/i18n';
+import { profile } from '~/data/profile';
+import Section from '~/components/Section.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="about" heading={t.about.heading}>
+  <div class="max-w-measure space-y-4 text-fg/90">
+    {t.about.body.map((p) => <p>{p}</p>)}
+  </div>
+
+  <dl class="mt-10 grid gap-6 sm:grid-cols-2">
+    <div>
+      <dt class="font-mono text-meta text-muted">{t.about.languages}</dt>
+      <dd class="mt-2">
+        <ul class="space-y-1 text-sm">
+          {
+            profile.languages.map((l) => (
+              <li>
+                {l.name[locale]} <span class="text-muted">{l.level[locale]}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </dd>
+    </div>
+    <div>
+      <dt class="font-mono text-meta text-muted">{t.about.education}</dt>
+      <dd class="mt-2 text-sm">
+        <p>{profile.education.title[locale]}</p>
+        <p class="text-muted">{profile.education.school}, {profile.education.years}</p>
+      </dd>
+    </div>
+  </dl>
+</Section>

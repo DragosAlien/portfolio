@@ -1,0 +1,44 @@
+---
+import Moon from '@lucide/astro/icons/moon';
+import Sun from '@lucide/astro/icons/sun';
+
+interface Props {
+  /** Localized "Dark theme"; the button is a toggle, so the label names the state, not the action. */
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label={label}
+  aria-pressed="true"
+  class="inline-flex size-9 items-center justify-center rounded-sm text-muted transition-colors duration-150 hover:text-fg"
+>
+  <Moon size={16} aria-hidden="true" class="theme-dark-only" />
+  <Sun size={16} aria-hidden="true" class="theme-light-only" />
+</button>
+
+<style>
+  :global(:root[data-theme='light']) .theme-dark-only,
+  :global(:root:not([data-theme='light'])) .theme-light-only {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const button = document.querySelector('[data-theme-toggle]');
+    const sync = () => button.setAttribute('aria-pressed', String(root.dataset.theme !== 'light'));
+    sync();
+    button.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+      try {
+        localStorage.setItem('theme', root.dataset.theme);
+      } catch {}
+      sync();
+    });
+  })();
+</script>

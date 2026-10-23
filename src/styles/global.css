@@ -1,0 +1,98 @@
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import 'tailwindcss';
+
+@theme {
+  /* Only the tokens below exist: no stray gray-500 or white in components. */
+  --color-*: initial;
+  --color-bg: #0e1014;
+  --color-surface: #14171c;
+  --color-line: #252a31;
+  --color-line-strong: #353b44;
+  --color-fg: #e4e7eb;
+  --color-muted: #8a929d;
+  --color-accent: #d9a95b;
+
+  /* Line lengths. */
+  --container-measure: 64ch;
+  --container-statement: 30ch;
+
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Type scale (1.25 ratio from 16px), tuned for Plex. */
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-lead: clamp(1.625rem, 1.1rem + 2.2vw, 2.625rem);
+  --text-lead--line-height: 1.2;
+  --text-lead--letter-spacing: -0.02em;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Light theme: same roles, cool neutral values. Dark stays the default (and the no-JS fallback). */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f6f7f9;
+  --color-surface: #eceef2;
+  --color-line: #dce0e5;
+  --color-line-strong: #c2c8d0;
+  --color-fg: #15181d;
+  --color-muted: #5a626d;
+  --color-accent: #8f5f14;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  ::selection {
+    @apply bg-accent text-bg;
+  }
+  :focus-visible {
+    @apply rounded-sm outline-2 outline-offset-2 outline-accent;
+  }
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  /* Inline text link: underline appears on hover/focus only. */
+  .link {
+    @apply underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:text-fg hover:decoration-fg;
+  }
+}
+
+/* The one orchestrated moment: hero content settles in on first load. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 600ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Page container shared by header, sections and footer. */
+@utility wrap {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10;
+}

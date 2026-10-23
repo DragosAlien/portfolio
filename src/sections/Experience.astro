@@ -1,0 +1,46 @@
+---
+import { useTranslations, type Locale } from '~/i18n';
+import { experience } from '~/data/experience';
+import Section from '~/components/Section.astro';
+import TechList from '~/components/TechList.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const month = new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const fmt = (ym: string) => month.format(new Date(`${ym}-01T00:00:00Z`));
+---
+
+<Section id="experience" heading={t.experience.heading}>
+  <ol class="space-y-10 border-l border-line">
+    {
+      experience.map((r) => (
+        <li class="relative pl-6 md:pl-8">
+          <span
+            aria-hidden="true"
+            class:list={[
+              'absolute top-2 -left-[4.5px] size-2 rounded-full ring-4 ring-bg',
+              r.end === null ? 'bg-accent' : 'bg-line-strong',
+            ]}
+          />
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+            <h3 class="font-medium">
+              {r.role} <span class="font-normal text-muted">{r.company}</span>
+            </h3>
+            <p class="shrink-0 font-mono text-meta text-muted">
+              <time datetime={r.start}>{fmt(r.start)}</time> –{' '}
+              {r.end ? <time datetime={r.end}>{fmt(r.end)}</time> : t.experience.present}
+            </p>
+          </div>
+          <p class="mt-1 text-meta text-muted">{[r.location, r.arrangement[locale]].filter(Boolean).join(', ')}</p>
+          <ul class="mt-4 max-w-measure list-disc space-y-1.5 pl-4 text-sm text-fg/80 marker:text-line-strong">
+            {r.points[locale].map((p) => <li>{p}</li>)}
+          </ul>
+          <TechList items={r.tech} class="mt-4" />
+        </li>
+      ))
+    }
+  </ol>
+</Section>

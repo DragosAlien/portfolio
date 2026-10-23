@@ -1,0 +1,43 @@
+---
+import { useTranslations, type Locale } from '~/i18n';
+import { layers, tooling } from '~/data/stack';
+import Section from '~/components/Section.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+// Rule brightness fades with depth (interface on top, systems at the bottom); tooling is dashed because it spans every layer.
+const rows = [
+  ...layers.map((l, i) => ({ ...l, rule: `border-color:color-mix(in oklab, var(--color-fg) ${90 - i * 18}%, var(--color-line))` })),
+  { ...tooling, rule: undefined },
+];
+---
+
+<Section id="stack" heading={t.stack.heading}>
+  <p class="max-w-measure text-sm text-muted">{t.stack.intro}</p>
+  <ul class="mt-8 space-y-1">
+    {
+      rows.map((l) => (
+        <li
+          class:list={[
+            'grid gap-2 border-l-2 py-4 pr-4 pl-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:pl-5',
+            l.rule ? 'bg-surface/60' : 'mt-4 border-dashed border-accent/70',
+          ]}
+          style={l.rule}
+        >
+          <h3 class="text-sm font-medium">{l.name[locale]}</h3>
+          <div>
+            <p class="flex flex-wrap gap-x-4 gap-y-1">
+              {l.tech.map((x) => <span>{x}</span>)}
+            </p>
+            <p class="mt-1 text-meta text-muted">
+              {l.note[locale]} {!l.rule && t.stack.crossCutting}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

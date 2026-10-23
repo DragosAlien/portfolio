@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import Download from '@lucide/astro/icons/download';
+import photo from '~/assets/profile.jpg';
+import { useTranslations, type Locale } from '~/i18n';
+import { profile, publicFile, socialLinks as socials } from '~/data/profile';
+import ExternalLink from '~/components/ExternalLink.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const cv = publicFile(profile.cv[locale]);
+
+const facts = [
+  { label: t.hero.facts.basedIn, value: `${profile.location.city}, ${profile.location.region[locale]}` },
+  { label: t.hero.facts.currently, value: `${profile.current.role}, ${profile.current.company}` },
+  { label: t.hero.facts.experience, value: t.hero.facts.experienceValue },
+];
+---
+
+<section class="wrap pt-14 pb-16 md:pt-24 md:pb-24">
+  <div class="reveal flex items-center gap-4" style="--i:0">
+    <!-- Decorative: the name is right next to it. -->
+    <Image
+      src={photo}
+      alt=""
+      width={56}
+      height={56}
+      densities={[1, 2]}
+      loading="eager"
+      class="size-14 shrink-0 rounded-md bg-surface object-cover ring-1 ring-line"
+    />
+    <div>
+      <h1 class="font-medium">{profile.name}</h1>
+      <p class="text-muted">{t.hero.title}</p>
+    </div>
+  </div>
+
+  <p class="reveal mt-8 max-w-statement text-lead text-balance md:mt-10" style="--i:1">{t.hero.lead}</p>
+
+  <div class="reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-4" style="--i:2">
+    <div class="flex flex-wrap gap-3">
+      <a
+        href="#work"
+        class="rounded-md bg-fg px-4 py-2 text-sm font-medium text-bg transition-colors duration-150 hover:bg-fg/85"
+      >
+        {t.hero.viewWork}
+      </a>
+      {
+        cv && (
+          <a
+            href={cv}
+            download
+            class="inline-flex items-center gap-2 rounded-md border border-line-strong px-4 py-2 text-sm font-medium transition-colors duration-150 hover:border-muted"
+          >
+            <Download size={15} aria-hidden="true" />
+            {t.hero.downloadCv}
+          </a>
+        )
+      }
+    </div>
+    {
+      socials.length > 0 && (
+        <ul class="flex gap-5 text-sm text-muted">
+          {socials.map((s) => (
+            <li>
+              <ExternalLink href={s.href} newTabLabel={t.a11y.opensInNewTab} class="transition-colors duration-150 hover:text-fg">
+                {s.label}
+              </ExternalLink>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+
+  <dl class="reveal mt-14 grid gap-5 sm:grid-cols-3 md:mt-20" style="--i:3">
+    {
+      facts.map((f) => (
+        <div>
+          <dt class="font-mono text-meta text-muted">{f.label}</dt>
+          <dd class="mt-1 text-sm">{f.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

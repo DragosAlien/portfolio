@@ -1,0 +1,41 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { localeNames, locales, type Locale } from '~/i18n';
+
+interface Props {
+  locale: Locale;
+  /** Locale-independent path of the current page, so switching keeps the user in place. */
+  path: string;
+  label: string;
+}
+const { locale, path, label } = Astro.props;
+---
+
+<nav aria-label={label}>
+  <ul class="flex items-center font-mono text-meta">
+    {
+      locales.map((l, i) => (
+        <li class="flex items-center">
+          {i > 0 && (
+            <span aria-hidden="true" class="text-line-strong">
+              /
+            </span>
+          )}
+          <a
+            href={getRelativeLocaleUrl(l, path)}
+            hreflang={l}
+            lang={l}
+            aria-label={localeNames[l]}
+            aria-current={l === locale ? 'page' : undefined}
+            class:list={[
+              'inline-flex h-9 items-center rounded-sm px-1.5 transition-colors duration-150',
+              l === locale ? 'text-accent' : 'text-muted hover:text-fg',
+            ]}
+          >
+            {l.toUpperCase()}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
