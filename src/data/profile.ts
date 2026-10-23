@@ -9,7 +9,7 @@ import type { Localized } from '~/i18n';
  */
 export const profile = {
   name: 'Dragos Vasiliu',
-  jobTitle: 'Full Stack Developer',
+  jobTitle: 'Software Developer',
   location: {
     city: 'Monferrato',
     region: { en: 'Piedmont', it: 'Piemonte' } as Localized,

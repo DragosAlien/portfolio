@@ -2,9 +2,9 @@ import type { Dictionary } from './en';
 
 const it: Dictionary = {
   meta: {
-    title: 'Dragos Vasiliu — Full Stack Developer',
+    title: 'Dragos Vasiliu — Software Developer',
     description:
-      'Dragos Vasiliu, Full Stack Developer. Applicazioni Laravel e React in produzione: nuove funzionalità, prestazioni, codice pulito e rilasci automatizzati su Docker e Linux.',
+      'Dragos Vasiliu, Software Developer. Applicazioni web in produzione, integrazioni con sistemi esterni, server Linux, rilasci automatizzati e strumenti AI.',
     ogLocale: 'it_IT',
   },
   a11y: {
@@ -21,8 +21,8 @@ const it: Dictionary = {
     contact: 'Contatti',
   },
   hero: {
-    title: 'Full Stack Developer',
-    lead: 'Dragos sviluppa e mantiene applicazioni Laravel e React che i clienti usano ogni giorno. Le rende più veloci, tiene in ordine il codice e automatizza i rilasci.',
+    title: 'Software Developer',
+    lead: 'Dragos lavora su tutto lo stack, dove serve: le applicazioni web che i clienti usano ogni giorno, le integrazioni con sistemi esterni, i server Linux su cui girano e le pipeline che le rilasciano. In parallelo, strumenti AI.',
     viewWork: 'Vedi i progetti',
     downloadCv: 'Scarica CV',
     localTime: 'ora locale',
@@ -45,6 +45,14 @@ const it: Dictionary = {
     allRepos: 'Tutti i repository su GitHub',
     repository: 'Codice',
     demo: 'Online',
+    activity: {
+      heading: 'Attività',
+      commits: 'commit',
+      repos: 'repository',
+      since: 'primo commit',
+      lastYear: (n: string) => `${n} commit negli ultimi 12 mesi, un quadrato per giorno. Quasi tutti i repository sono privati.`,
+      updated: 'Aggiornato il',
+    },
   },
   experience: {
     heading: 'Esperienza',
@@ -57,7 +65,7 @@ const it: Dictionary = {
   },
   contact: {
     heading: 'Contatti',
-    body: 'Cerchi uno sviluppatore o hai un progetto in mente? Il modo più veloce per contattare Dragos è l’email.',
+    body: 'Cerchi uno sviluppatore per il tuo team? Il modo più veloce per contattare Dragos è l’email.',
     email: 'Email',
   },
   palette: {

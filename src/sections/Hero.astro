@@ -1,7 +1,5 @@
 ---
-import { Image } from 'astro:assets';
 import Download from '@lucide/astro/icons/download';
-import photo from '~/assets/profile.jpg';
 import { useTranslations, type Locale } from '~/i18n';
 import { profile, publicFile, socialLinks as socials } from '~/data/profile';
 import ExternalLink from '~/components/ExternalLink.astro';
@@ -17,16 +15,6 @@ const [first, ...rest] = profile.name.split(' ');
 
 <section class="wrap pt-12 pb-14 md:pt-20 md:pb-20">
   <p class="reveal flex items-center gap-3 font-mono text-meta text-muted" style="--i:0">
-    <!-- Decorative: the name is right below it. -->
-    <Image
-      src={photo}
-      alt=""
-      width={32}
-      height={32}
-      densities={[1, 2]}
-      loading="eager"
-      class="size-8 shrink-0 rounded-full bg-surface object-cover ring-1 ring-line"
-    />
     <span aria-hidden="true" class="pulse relative size-1.5 shrink-0 rounded-full bg-accent"></span>
     <span>{t.hero.title} · {profile.current.company}</span>
   </p>

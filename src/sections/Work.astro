@@ -5,6 +5,8 @@ import { projects, type Project } from '~/data/projects';
 import Section from '~/components/Section.astro';
 import TechList from '~/components/TechList.astro';
 import ExternalLink from '~/components/ExternalLink.astro';
+import Plus from '@lucide/astro/icons/plus';
+import activity from '~/data/activity.json';
 
 interface Props {
   locale: Locale;
@@ -21,6 +23,20 @@ const groups: { id: string; heading: string; note?: string; items: Project[] }[]
   },
   { id: 'open-source', heading: t.work.openSource, items: projects.filter((p) => p.category === 'open-source') },
 ].filter((g) => g.items.length > 0);
+
+// Snapshot from scripts/activity.mjs. Shade steps by commits per day; days after the snapshot are left blank.
+const num = new Intl.NumberFormat(locale);
+const lastYear = activity.days.reduce((a, b) => a + b, 0);
+const shown = (Date.parse(activity.updated) - Date.parse(activity.start)) / 864e5;
+const level = (n: number) => (n === 0 ? 0 : n < 3 ? 1 : n < 6 ? 2 : n < 10 ? 3 : 4);
+const updated = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+  new Date(activity.updated),
+);
+const stats = [
+  [num.format(activity.commits), t.work.activity.commits],
+  [num.format(activity.repos), t.work.activity.repos],
+  [activity.since, t.work.activity.since],
+];
 ---
 
 <Section id="work" index={2} heading={t.work.heading}>
@@ -31,31 +47,65 @@ const groups: { id: string; heading: string; note?: string; items: Project[] }[]
           <h3 class="text-sm font-medium text-muted">{g.heading}</h3>
           {g.note && <p class="mt-1 max-w-measure text-sm text-muted">{g.note}</p>}
           <ul class="mt-4 divide-y divide-line border-y border-line">
-            {g.items.map((p) => (
-              <li data-perch="sit" class="scroll-reveal relative isolate grid gap-3 py-6 before:absolute before:inset-y-1 before:-inset-x-3 before:-z-10 before:rounded-md before:bg-surface before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-10">
-                <div class="min-w-0">
-                  <h4 class="text-xl font-medium tracking-tight">{p.name[locale]}</h4>
-                  <p class="mt-2 max-w-measure text-sm text-fg/80">{p.description[locale]}</p>
-                  <TechList items={p.tech} class="mt-3" />
-                </div>
-                <div class="flex flex-wrap items-start gap-x-5 gap-y-1 text-meta md:flex-col md:items-end md:text-right">
-                  <p class="font-mono text-muted">
-                    <span>{p.year}</span> <span class="ml-2">{p.status[locale]}</span>
-                  </p>
-                  {p.repository && (
-                    <ExternalLink href={p.repository} newTabLabel={t.a11y.opensInNewTab} class="link">
-                      {t.work.repository}
-                    </ExternalLink>
-                  )}
-                  {p.demo && (
-                    <ExternalLink href={p.demo} newTabLabel={t.a11y.opensInNewTab} class="link">
-                      {t.work.demo}
-                    </ExternalLink>
-                  )}
-                </div>
+            {g.items.map((p, i) => (
+              <li data-perch={i === 0 ? 'sit' : undefined} class="scroll-reveal relative isolate before:absolute before:inset-y-1 before:-inset-x-3 before:-z-10 before:rounded-md before:bg-surface before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100">
+                <!-- Collapsed rows keep the list short: name, tech and dates; the description opens on click.
+                     Rows are too short for the alien to stand between them, so it only perches on each group's first. -->
+                <details open={i === 0} class="group">
+                  <summary class="grid cursor-pointer list-none gap-x-10 gap-y-2 py-5 md:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="min-w-0">
+                      <h4 class="text-xl font-medium tracking-tight">{p.name[locale]}</h4>
+                      <TechList items={p.tech} class="mt-2" />
+                    </div>
+                    <div class="flex items-start gap-4 text-meta md:justify-end">
+                      <p class="font-mono text-muted">
+                        <span>{p.year}</span> <span class="ml-2">{p.status[locale]}</span>
+                      </p>
+                      <Plus
+                        size={16}
+                        aria-hidden="true"
+                        class="ml-auto shrink-0 text-muted group-open:rotate-45 motion-safe:transition-transform md:ml-0"
+                      />
+                    </div>
+                  </summary>
+                  <div class="-mt-1 flex flex-wrap items-baseline gap-x-5 gap-y-2 pb-6">
+                    <p class="max-w-measure text-sm text-fg/80">{p.description[locale]}</p>
+                    {p.repository && (
+                      <ExternalLink href={p.repository} newTabLabel={t.a11y.opensInNewTab} class="link text-meta">
+                        {t.work.repository}
+                      </ExternalLink>
+                    )}
+                    {p.demo && (
+                      <ExternalLink href={p.demo} newTabLabel={t.a11y.opensInNewTab} class="link text-meta">
+                        {t.work.demo}
+                      </ExternalLink>
+                    )}
+                  </div>
+                </details>
               </li>
             ))}
           </ul>
+          {g.id === 'professional' && (
+            <div class="mt-10">
+              <h3 class="text-sm font-medium text-muted">{t.work.activity.heading}</h3>
+              <dl data-perch="sit" class="mt-4 flex flex-wrap gap-x-10 gap-y-4">
+                {stats.map(([value, label]) => (
+                  <div class="flex flex-col-reverse">
+                    <dt class="font-mono text-meta text-muted">{label}</dt>
+                    <dd class="text-2xl font-medium tracking-tight tabular-nums">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div aria-hidden="true" class="mt-5 grid auto-cols-fr grid-flow-col grid-rows-7 gap-px sm:gap-0.5">
+                {activity.days.map((n, i) => (
+                  <span class:list={['heat aspect-square rounded-xs', i > shown && 'invisible']} data-level={level(n)} />
+                ))}
+              </div>
+              <p class="mt-3 font-mono text-meta text-muted">
+                {t.work.activity.lastYear(num.format(lastYear))} {t.work.activity.updated} {updated}.
+              </p>
+            </div>
+          )}
         </div>
       ))
     }
@@ -68,3 +118,25 @@ const groups: { id: string; heading: string; note?: string; items: Project[] }[]
     }
   </div>
 </Section>
+
+<style>
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  /* Commit heatmap: fg mixed into the surface, so both themes work and accent stays for state. */
+  .heat {
+    background: var(--color-line);
+  }
+  .heat[data-level='1'] {
+    background: color-mix(in oklab, var(--color-fg) 22%, var(--color-surface));
+  }
+  .heat[data-level='2'] {
+    background: color-mix(in oklab, var(--color-fg) 42%, var(--color-surface));
+  }
+  .heat[data-level='3'] {
+    background: color-mix(in oklab, var(--color-fg) 65%, var(--color-surface));
+  }
+  .heat[data-level='4'] {
+    background: var(--color-fg);
+  }
+</style>

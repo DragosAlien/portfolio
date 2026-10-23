@@ -25,11 +25,10 @@ const all: Project[] = [
     year: '2023–',
     status: { en: 'In production', it: 'In produzione' },
     description: {
-      en: 'Multi-tenant web application with real-time features over WebSockets. Dragos works on its ongoing development, including configuration and customisation for individual clients.',
-      it: 'Applicazione web multi-tenant con funzionalità in tempo reale via WebSocket. Dragos ne segue lo sviluppo continuativo, incluse configurazioni e personalizzazioni per i singoli clienti.',
+      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. Dragos wrote most of the current Laravel and React version and keeps it running.',
+      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Dragos ha scritto la maggior parte della versione attuale in Laravel e React e ne segue la gestione.',
     },
-    // TODO: confirm which parts of the stack are public before listing more.
-    tech: ['WebSockets', 'Multi-tenancy'],
+    tech: ['Laravel', 'React', 'Inertia.js', 'Redis', 'WebSockets', 'PWA'],
     featured: true,
   },
   {
@@ -44,6 +43,54 @@ const all: Project[] = [
     },
     tech: ['PHP', 'SOAP', 'XML'],
     featured: true,
+  },
+  {
+    slug: 'purchase-orders',
+    name: { en: 'Purchase orders for a public body', it: 'Ordini d’acquisto per un ente pubblico' },
+    category: 'professional',
+    year: '2025–',
+    status: { en: 'In production', it: 'In produzione' },
+    description: {
+      en: 'Purchase requests from draft to signed order: attachments, approvals across offices with six roles, PDF printing and contract drafts. Supplier invoices arrive through SOAP services and are matched to their order by tender code.',
+      it: 'Richieste d’acquisto dalla bozza all’ordine firmato: allegati, approvazioni tra uffici con sei ruoli, stampa PDF e bozze di contratto. Le fatture dei fornitori arrivano da servizi SOAP e vengono abbinate all’ordine tramite il CIG.',
+    },
+    tech: ['Laravel', 'React', 'Inertia.js', 'TypeScript', 'MySQL', 'SOAP', 'Pest'],
+  },
+  {
+    slug: 'ops-panel',
+    name: { en: 'Server operations panel', it: 'Pannello operativo per i server' },
+    category: 'professional',
+    year: '2026–',
+    status: { en: 'Built in-house', it: 'Sviluppo interno' },
+    description: {
+      en: 'Control room for the company’s VPS fleet: inventory, backups, monitoring and alerts. SSH operations are built by the backend and run in queues, never typed by hand. Database dumps stream over SSH with checksums and are re-verified every week, and locks keep scheduled jobs from running twice.',
+      it: 'Sala di controllo per i VPS dell’azienda: inventario, backup, monitoraggio e avvisi. Le operazioni SSH le costruisce il backend e girano in coda, mai scritte a mano. I dump dei database passano via SSH con checksum e vengono ricontrollati ogni settimana; i lock impediscono che un job pianificato parta due volte.',
+    },
+    tech: ['Laravel', 'React', 'Inertia.js', 'PostgreSQL', 'Redis', 'Docker', 'Restic'],
+  },
+  {
+    slug: 'deploy-panel',
+    name: { en: 'Deployment panel for legacy Java apps', it: 'Pannello di deploy per applicazioni Java legacy' },
+    category: 'professional',
+    year: '2026–',
+    status: { en: 'Built in-house', it: 'Sviluppo interno' },
+    description: {
+      en: 'Installs and maintains a vendor’s Tomcat-based HR applications on client servers, over SSH and VPN. Only allowlisted scripts run, as tracked jobs with live logs. Credentials are encrypted, backups and restores go through a queue, and installs can be dry-run first.',
+      it: 'Installa e mantiene le applicazioni HR su Tomcat di un fornitore sui server dei clienti, via SSH e VPN. Girano solo script ammessi, come job tracciati con log in diretta. Le credenziali sono cifrate, backup e ripristini passano da una coda e le installazioni si possono provare prima a vuoto.',
+    },
+    tech: ['React', 'Node.js', 'Fastify', 'BullMQ', 'Redis', 'PostgreSQL', 'Docker'],
+  },
+  {
+    slug: 'docs-assistant',
+    name: { en: 'Documentation assistant', it: 'Assistente sulla documentazione' },
+    category: 'professional',
+    year: '2026–',
+    status: { en: 'Built in-house', it: 'Sviluppo interno' },
+    description: {
+      en: 'Local assistant that answers questions on an ERP product’s documentation and cites its sources. A reproducible ingestion pipeline re-indexes only what changed; the API is OpenAI-compatible and runs on Metal, CUDA or CPU. Graph-based retrieval comes next.',
+      it: 'Assistente locale che risponde a domande sulla documentazione di un gestionale e cita le fonti. Una pipeline di ingestione riproducibile reindicizza solo ciò che è cambiato; l’API è compatibile con OpenAI e gira su Metal, CUDA o CPU. Il prossimo passo è il retrieval a grafo.',
+    },
+    tech: ['Python', 'RAG', 'Qdrant', 'llama.cpp', 'Docker'],
   },
   {
     slug: 'portfolio',

@@ -1,9 +1,9 @@
 // UI copy for English. The Italian file must satisfy the same shape (see `Dictionary`).
 const en = {
   meta: {
-    title: 'Dragos Vasiliu — Full Stack Developer',
+    title: 'Dragos Vasiliu — Software Developer',
     description:
-      'Dragos Vasiliu, Full Stack Developer. Laravel and React applications in production: new features, performance, clean code and automated releases on Docker and Linux.',
+      'Dragos Vasiliu, Software Developer. Web applications in production, integrations with external systems, Linux servers, automated releases and AI tooling.',
     ogLocale: 'en_GB',
   },
   a11y: {
@@ -20,8 +20,8 @@ const en = {
     contact: 'Contact',
   },
   hero: {
-    title: 'Full Stack Developer',
-    lead: 'Dragos builds and maintains Laravel and React applications that clients use every day. He makes them faster, keeps the codebase clean and automates how they ship.',
+    title: 'Software Developer',
+    lead: 'Dragos works across the stack, wherever the problem is: the web applications clients use every day, their integrations with external systems, the Linux servers they run on and the pipelines that ship them. On the side, AI tools.',
     viewWork: 'View work',
     downloadCv: 'Download CV',
     localTime: 'local time',
@@ -44,6 +44,14 @@ const en = {
     allRepos: 'All repositories on GitHub',
     repository: 'Source',
     demo: 'Live',
+    activity: {
+      heading: 'Activity',
+      commits: 'commits',
+      repos: 'repositories',
+      since: 'first commit',
+      lastYear: (n: string) => `${n} commits in the last 12 months, one square per day. Most repositories are private.`,
+      updated: 'Updated',
+    },
   },
   experience: {
     heading: 'Experience',
@@ -56,7 +64,7 @@ const en = {
   },
   contact: {
     heading: 'Contact',
-    body: 'Hiring, or have a project in mind? Email is the fastest way to reach Dragos.',
+    body: 'Looking for a developer to join your team? Email is the fastest way to reach Dragos.',
     email: 'Email',
   },
   palette: {
