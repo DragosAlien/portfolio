@@ -25,8 +25,8 @@ const all: Project[] = [
     year: '2023–',
     status: { en: 'In production', it: 'In produzione' },
     description: {
-      en: 'Multi-tenant web application with real-time features over WebSockets. I work on its ongoing development, including configuration and customisation for individual clients.',
-      it: 'Applicazione web multi-tenant con funzionalità in tempo reale via WebSocket. Ne seguo lo sviluppo continuativo, incluse configurazioni e personalizzazioni per i singoli clienti.',
+      en: 'Multi-tenant web application with real-time features over WebSockets. Dragos works on its ongoing development, including configuration and customisation for individual clients.',
+      it: 'Applicazione web multi-tenant con funzionalità in tempo reale via WebSocket. Dragos ne segue lo sviluppo continuativo, incluse configurazioni e personalizzazioni per i singoli clienti.',
     },
     // TODO: confirm which parts of the stack are public before listing more.
     tech: ['WebSockets', 'Multi-tenancy'],

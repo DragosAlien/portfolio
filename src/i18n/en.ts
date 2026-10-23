@@ -3,7 +3,7 @@ const en = {
   meta: {
     title: 'Dragos Vasiliu — Full Stack Developer',
     description:
-      'Full Stack Developer working with Laravel, React, Docker and Linux. I build, deploy and maintain production web applications.',
+      'Dragos Vasiliu, Full Stack Developer. Laravel and React applications in production: new features, performance, clean code and automated releases on Docker and Linux.',
     ogLocale: 'en_GB',
   },
   a11y: {
@@ -21,21 +21,17 @@ const en = {
   },
   hero: {
     title: 'Full Stack Developer',
-    lead: 'I build and run production web applications, from the React interface down to the Linux server it runs on.',
+    lead: 'Dragos builds and maintains Laravel and React applications that clients use every day. He makes them faster, keeps the codebase clean and automates how they ship.',
     viewWork: 'View work',
     downloadCv: 'Download CV',
-    facts: {
-      basedIn: 'Based in',
-      currently: 'Currently',
-      experience: 'Experience',
-      experienceValue: '3+ years in production',
-    },
+    localTime: 'local time',
   },
   about: {
     heading: 'About',
     body: [
-      'Most of my work happens on Laravel applications that are already live: new features, integrations with external systems, releases and the debugging that comes after. I work with clients directly, so requirements, implementation and support usually stay with the same person.',
-      'Alongside that I build prototypes with LLMs, AI agents, MCP, RAG and GraphRAG, mostly for document retrieval and for automating parts of my own development workflow.',
+      'At PARENTESIKUADRA Dragos works on live Laravel applications with React and Inertia.js frontends, Klancy among them: a multi-tenant platform built on WebSockets. He ships new features, connects them to external systems such as Fluida, Tilby and AHRW, and handles the releases himself.',
+      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates.',
+      'He talks to clients directly, so requirements, code and support stay with one person. On the side he builds prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of his own workflow.',
     ],
     languages: 'Languages',
     education: 'Education',
@@ -43,7 +39,7 @@ const en = {
   work: {
     heading: 'Selected work',
     professional: 'Professional',
-    professionalNote: 'Client and company projects. The code is private, so these describe scope and my role.',
+    professionalNote: 'Client and company work. The code is private, so this covers what each project does and Dragos’s part in it.',
     openSource: 'Open source',
     allRepos: 'All repositories on GitHub',
     repository: 'Source',
@@ -55,13 +51,38 @@ const en = {
   },
   stack: {
     heading: 'Stack',
-    intro: 'Grouped by where it sits in an application, from what the user sees to the server underneath.',
+    intro: 'Ordered by layer: the interface on top, the server at the bottom.',
     crossCutting: 'Used across every layer.',
   },
   contact: {
     heading: 'Contact',
-    body: 'For work enquiries or to talk about a project, email is the best way to reach me.',
+    body: 'Hiring, or have a project in mind? Email is the fastest way to reach Dragos.',
     email: 'Email',
+  },
+  palette: {
+    open: 'Open command menu',
+    title: 'Command menu',
+    placeholder: 'Jump to a section or run a command…',
+    empty: 'No matching commands.',
+    goTo: 'Go to',
+    actions: 'Actions',
+    links: 'Links',
+    top: 'Top of the page',
+    toggleTheme: 'Switch between light and dark theme',
+    switchLanguage: 'Read in Italian',
+    copyEmail: 'Copy email address',
+    copied: 'Email address copied',
+    hint: 'to select, Esc to close',
+  },
+  alien: {
+    label: 'Alien mascot: click it to make it talk.',
+    lines: [
+      'I’m not part of the stack. I just live here.',
+      'Lost? ⌘K or Ctrl+K takes you anywhere.',
+      'Dragos wrote me. I’m the only bug he decided to keep.',
+      'Psst: ↑ ↑ ↓ ↓ ← → ← → B A',
+    ],
+    abducted: 'Beam me up! Back in a second.',
   },
   footer: {
     builtWith: 'Built with Astro and deployed on GitHub Pages.',

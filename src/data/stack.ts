@@ -25,7 +25,7 @@ export const layers: Layer[] = [
   },
   {
     name: { en: 'Integrations', it: 'Integrazioni' },
-    note: { en: 'Talking to systems I don’t control.', it: 'Comunicazione con sistemi di terze parti.' },
+    note: { en: 'Talking to third-party systems.', it: 'Comunicazione con sistemi di terze parti.' },
     tech: ['REST', 'SOAP', 'WebSockets', 'XML'],
   },
   {

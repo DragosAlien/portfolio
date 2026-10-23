@@ -15,6 +15,7 @@ export const profile = {
     region: { en: 'Piedmont', it: 'Piemonte' } as Localized,
     country: { en: 'Italy', it: 'Italia' } as Localized,
     countryCode: 'IT',
+    timeZone: 'Europe/Rome',
   },
   current: { role: 'Software Developer', company: 'PARENTESIKUADRA' },
 
