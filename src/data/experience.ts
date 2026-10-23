@@ -6,7 +6,7 @@ export interface Role {
   /** ISO year-month. `end: null` means current. */
   start: string;
   end: string | null;
-  location?: string;
+  location?: Localized;
   arrangement: Localized;
   points: Localized<string[]>;
   tech: string[];
@@ -18,11 +18,11 @@ export const experience: Role[] = [
     company: 'PARENTESIKUADRA',
     start: '2023-12',
     end: null,
-    location: 'Casale Monferrato',
+    location: { en: 'Casale Monferrato', it: 'Casale Monferrato' },
     arrangement: { en: 'Hybrid', it: 'Ibrido' },
     points: {
       en: [
-        'Develop and maintain Laravel applications in production, with React and Inertia.js frontends.',
+        'Develop and maintain Laravel applications in production, with React and Inertia.js frontends; main author of several of them and of the internal template new projects start from.',
         'Contribute to Klancy, a multi-tenant application built on WebSockets, including configuration and customisation for individual clients.',
         'Integrate external systems: Fluida and Tilby APIs, AHRW SOAP services, and XML files generated for import into G1.',
         'Containerise applications with Docker, ship production releases, and maintain and migrate Linux/Plesk servers.',
@@ -30,7 +30,7 @@ export const experience: Role[] = [
         'Work with clients directly on requirements and support.',
       ],
       it: [
-        'Sviluppo e manutenzione di applicazioni Laravel in produzione, con frontend in React e Inertia.js.',
+        'Sviluppo e manutenzione di applicazioni Laravel in produzione, con frontend in React e Inertia.js; autore principale di diverse di queste e del template interno da cui partono i nuovi progetti.',
         'Sviluppo continuativo di Klancy, applicazione multi-tenant basata su WebSocket, incluse configurazioni e personalizzazioni per i singoli clienti.',
         'Integrazioni con sistemi esterni: API Fluida e Tilby, servizi SOAP AHRW e generazione di file XML per l’import in G1.',
         'Containerizzazione con Docker, rilasci in produzione, manutenzione e migrazione di server Linux/Plesk.',
@@ -38,23 +38,23 @@ export const experience: Role[] = [
         'Rapporto diretto con i clienti per requisiti e assistenza.',
       ],
     },
-    tech: ['PHP', 'Laravel', 'React', 'Inertia.js', 'Node.js', 'SQL', 'Redis', 'Docker', 'Linux', 'REST', 'SOAP', 'XML', 'WebSockets', 'Electron'],
+    tech: ['PHP', 'Laravel', 'React', 'Inertia.js', 'Node.js', 'PostgreSQL', 'MySQL', 'Redis', 'Docker', 'Linux', 'REST', 'Stripe', 'Pest', 'PHPStan', 'SOAP', 'XML', 'WebSockets', 'Electron'],
   },
   {
     role: 'Junior Frontend Developer',
     company: 'PARENTESIKUADRA',
     start: '2023-05',
     end: '2023-12',
-    location: 'Casale Monferrato',
+    location: { en: 'Casale Monferrato', it: 'Casale Monferrato' },
     arrangement: { en: 'On-site · Internship', it: 'In sede · Tirocinio' },
     points: {
       en: [
         'Built responsive React interfaces integrated with Laravel applications and backend services.',
-        'Frontend bug fixing, testing and maintenance in a Git-based workflow.',
+        'Frontend bug fixing and maintenance in a Git-based workflow.',
       ],
       it: [
         'Sviluppo di interfacce React responsive integrate con applicazioni Laravel e servizi backend.',
-        'Correzione di bug frontend, test e manutenzione con un flusso di lavoro basato su Git.',
+        'Correzione di bug frontend e manutenzione con un flusso di lavoro basato su Git.',
       ],
     },
     tech: ['React', 'JavaScript', 'HTML', 'CSS', 'Laravel', 'Git'],
@@ -64,6 +64,7 @@ export const experience: Role[] = [
     company: 'Syrma Soluzioni Informatiche S.r.l.',
     start: '2022-09',
     end: '2023-04',
+    location: { en: 'Turin', it: 'Torino' },
     arrangement: { en: 'On-site · Full-time', it: 'In sede · Tempo pieno' },
     points: {
       en: [

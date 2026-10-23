@@ -44,14 +44,13 @@ const stats = [
     {
       groups.map((g) => (
         <div>
-          <h3 class="text-sm font-medium text-muted">{g.heading}</h3>
+          <h3 data-perch="sit" class="text-sm font-medium text-muted">{g.heading}</h3>
           {g.note && <p class="mt-1 max-w-measure text-sm text-muted">{g.note}</p>}
           <ul class="mt-4 divide-y divide-line border-y border-line">
             {g.items.map((p, i) => (
-              <li data-perch={i === 0 ? 'sit' : undefined} class="scroll-reveal relative isolate before:absolute before:inset-y-1 before:-inset-x-3 before:-z-10 before:rounded-md before:bg-surface before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100">
-                <!-- Collapsed rows keep the list short: name, tech and dates; the description opens on click.
-                     Rows are too short for the alien to stand between them, so it only perches on each group's first. -->
-                <details open={i === 0} class="group">
+              <li class="scroll-reveal relative isolate before:absolute before:inset-y-1 before:-inset-x-3 before:-z-10 before:rounded-md before:bg-surface before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100">
+                <!-- Collapsed rows keep the list short: name, tech and dates; the description opens on click. -->
+                <details open={i < 2} class="group">
                   <summary class="grid cursor-pointer list-none gap-x-10 gap-y-2 py-5 md:grid-cols-[minmax(0,1fr)_auto]">
                     <div class="min-w-0">
                       <h4 class="text-xl font-medium tracking-tight">{p.name[locale]}</h4>

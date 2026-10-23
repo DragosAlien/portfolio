@@ -30,8 +30,8 @@ const it: Dictionary = {
   about: {
     heading: 'Chi sono',
     body: [
-      'In PARENTESIKUADRA Dragos lavora su applicazioni Laravel in produzione con frontend React e Inertia.js, tra cui Klancy, una piattaforma multi-tenant basata su WebSocket. Sviluppa nuove funzionalità, le collega a sistemi esterni come Fluida, Tilby e AHRW e cura i rilasci in prima persona.',
-      'Si occupa anche di quello che succede dopo. Se una pagina è lenta, un aggiornamento delle dipendenze rompe la build o un deploy si fa ancora a mano, cerca il perché e lo sistema lì, senza toppe. Le applicazioni girano in Docker su server Linux, che mantiene e migra.',
+      'In PARENTESIKUADRA Dragos scrive e mantiene gestionali in Laravel con frontend React e Inertia.js, e di molti è l’autore principale: tra questi Klancy, una piattaforma multi-tenant basata su WebSocket. Li collega a pagamenti, webhook, API e servizi SOAP esterni e cura i rilasci in prima persona.',
+      'Si occupa anche di quello che succede dopo. Se una pagina è lenta, un aggiornamento delle dipendenze rompe la build o un deploy si fa ancora a mano, cerca il perché e lo sistema lì, senza toppe. Le applicazioni girano in Docker su server Linux, che mantiene e migra. Dal 2025 scrive test con PHPUnit, Pest e Vitest, e lavora anche su codice PHP legacy.',
       'Parla direttamente con i clienti, quindi requisiti, codice e assistenza restano nelle stesse mani. In parallelo realizza prototipi con LLM, agenti AI, MCP e RAG, soprattutto per la ricerca nei documenti e per automatizzare parte del proprio lavoro.',
     ],
     languages: 'Lingue',
@@ -65,7 +65,7 @@ const it: Dictionary = {
   },
   contact: {
     heading: 'Contatti',
-    body: 'Cerchi uno sviluppatore per il tuo team? Il modo più veloce per contattare Dragos è l’email.',
+    body: 'Il modo più veloce per contattare Dragos è l’email.',
     email: 'Email',
   },
   palette: {

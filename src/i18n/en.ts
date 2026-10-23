@@ -29,8 +29,8 @@ const en = {
   about: {
     heading: 'About',
     body: [
-      'At PARENTESIKUADRA Dragos works on live Laravel applications with React and Inertia.js frontends, Klancy among them: a multi-tenant platform built on WebSockets. He ships new features, connects them to external systems such as Fluida, Tilby and AHRW, and handles the releases himself.',
-      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates.',
+      'At PARENTESIKUADRA Dragos builds and maintains Laravel business applications with React and Inertia.js frontends, and is the main author of many of them, Klancy among them: a multi-tenant platform built on WebSockets. He connects them to payments, webhooks, third-party APIs and SOAP services, and handles the releases himself.',
+      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates. Since 2025 he has been writing tests with PHPUnit, Pest and Vitest, and he also works on legacy PHP code.',
       'He talks to clients directly, so requirements, code and support stay with one person. On the side he builds prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of his own workflow.',
     ],
     languages: 'Languages',
@@ -64,7 +64,7 @@ const en = {
   },
   contact: {
     heading: 'Contact',
-    body: 'Looking for a developer to join your team? Email is the fastest way to reach Dragos.',
+    body: 'Email is the fastest way to reach Dragos.',
     email: 'Email',
   },
   palette: {

@@ -35,7 +35,7 @@ const fmt = (ym: string) => month.format(new Date(`${ym}-01T00:00:00Z`));
               {r.end ? <time datetime={r.end}>{fmt(r.end)}</time> : t.experience.present}
             </p>
           </div>
-          <p class="mt-1 text-meta text-muted">{[r.location, r.arrangement[locale]].filter(Boolean).join(', ')}</p>
+          <p class="mt-1 text-meta text-muted">{[r.location?.[locale], r.arrangement[locale]].filter(Boolean).join(', ')}</p>
           <ul class="mt-4 max-w-measure list-disc space-y-1.5 pl-4 text-sm text-fg/80 marker:text-line-strong">
             {r.points[locale].map((p) => <li>{p}</li>)}
           </ul>

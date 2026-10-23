@@ -11,27 +11,27 @@ export const layers: Layer[] = [
   {
     name: { en: 'Interface', it: 'Interfaccia' },
     note: { en: 'Web and desktop UIs, data-heavy tables, responsive layouts.', it: 'Interfacce web e desktop, tabelle con molti dati, layout responsive.' },
-    tech: ['React', 'Inertia.js', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS', 'TanStack Table', 'Electron'],
+    tech: ['React', 'Inertia.js', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS', 'TanStack Table', 'PWA', 'Electron'],
   },
   {
     name: { en: 'Application', it: 'Applicazione' },
-    note: { en: 'Business logic, background work, dependency management.', it: 'Logica applicativa, processi in background, gestione delle dipendenze.' },
-    tech: ['PHP', 'Laravel', 'Node.js', 'Composer', 'npm'],
+    note: { en: 'Business logic, background work, real-time, tests and static analysis.', it: 'Logica applicativa, processi in background, tempo reale, test e analisi statica.' },
+    tech: ['PHP', 'Laravel', 'Laravel Reverb', 'Node.js', 'Fastify', 'BullMQ', 'Python', 'FastAPI', 'Composer', 'npm', 'PHPUnit', 'Pest', 'Vitest', 'PHPStan'],
   },
   {
     name: { en: 'Data', it: 'Dati' },
     note: { en: 'Relational schemas, queries, caching and queues.', it: 'Schemi relazionali, query, cache e code.' },
-    tech: ['SQL', 'Redis'],
+    tech: ['PostgreSQL', 'MySQL', 'Redis'],
   },
   {
     name: { en: 'Integrations', it: 'Integrazioni' },
     note: { en: 'Talking to third-party systems.', it: 'Comunicazione con sistemi di terze parti.' },
-    tech: ['REST', 'SOAP', 'WebSockets', 'XML'],
+    tech: ['REST', 'Webhooks', 'Stripe', 'SOAP', 'WebSockets', 'XML'],
   },
   {
     name: { en: 'Systems', it: 'Sistemi' },
     note: { en: 'Deployment, server maintenance, migrations and backups.', it: 'Rilasci, manutenzione dei server, migrazioni e backup.' },
-    tech: ['Linux', 'Docker', 'Plesk', 'SSH', 'cron', 'Restic', 'Git'],
+    tech: ['Linux', 'Docker', 'Plesk', 'SSH', 'cron', 'Restic', 'Git', 'GitHub Actions'],
   },
 ];
 
