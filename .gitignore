@@ -3,6 +3,3 @@ dist/
 .astro/
 .DS_Store
 .env
-
-# CV PDFs stay local until web versions without phone number / GDPR notice exist.
-public/cv/*.pdf
