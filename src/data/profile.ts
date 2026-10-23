@@ -27,7 +27,7 @@ export const profile = {
   cv: { en: '/cv/dragos-vasiliu-cv-en.pdf', it: '/cv/dragos-vasiliu-cv-it.pdf' } as Localized,
 
   languages: [
-    { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'Native', it: 'Madrelingua' } },
+    { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'Native', it: 'madrelingua' } },
     { name: { en: 'Romanian', it: 'Rumeno' }, level: { en: 'C2', it: 'C2' } },
     { name: { en: 'English', it: 'Inglese' }, level: { en: 'B2', it: 'B2' } },
   ] satisfies { name: Localized; level: Localized }[],
