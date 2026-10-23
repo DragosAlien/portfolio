@@ -1,0 +1,233 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Hash from '@lucide/astro/icons/hash';
+import SunMoon from '@lucide/astro/icons/sun-moon';
+import Languages from '@lucide/astro/icons/languages';
+import Copy from '@lucide/astro/icons/copy';
+import Download from '@lucide/astro/icons/download';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import Search from '@lucide/astro/icons/search';
+import CornerDownLeft from '@lucide/astro/icons/corner-down-left';
+import { locales, useTranslations, type Locale } from '~/i18n';
+import { profile, publicFile, repository, socialLinks } from '~/data/profile';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+const { locale, path } = Astro.props;
+const t = useTranslations(locale);
+const other = locales.find((l) => l !== locale)!;
+const cv = publicFile(profile.cv[locale]);
+
+type Action = 'go' | 'theme' | 'nav' | 'copy' | 'open' | 'download';
+type Item = { label: string; action: Action; value?: string; keywords?: string; icon?: typeof Hash };
+
+// Keywords carry the other language too, so "contatti" finds Contact on the English page and vice versa.
+const groups: { heading: string; items: Item[] }[] = [
+  {
+    heading: t.palette.goTo,
+    items: [
+      { label: t.palette.top, action: 'go', value: '#main', keywords: 'home hero top inizio' },
+      { label: t.about.heading, action: 'go', value: '#about', keywords: 'about chi sono bio' },
+      { label: t.work.heading, action: 'go', value: '#work', keywords: 'work projects progetti lavoro' },
+      { label: t.experience.heading, action: 'go', value: '#experience', keywords: 'experience esperienza jobs cv' },
+      { label: t.stack.heading, action: 'go', value: '#stack', keywords: 'stack tech skills tecnologie' },
+      { label: t.contact.heading, action: 'go', value: '#contact', keywords: 'contact contatti email' },
+    ],
+  },
+  {
+    heading: t.palette.actions,
+    items: [
+      { label: t.palette.toggleTheme, action: 'theme', keywords: 'theme tema dark light chiaro scuro', icon: SunMoon },
+      {
+        label: t.palette.switchLanguage,
+        action: 'nav',
+        value: getRelativeLocaleUrl(other, path),
+        keywords: 'language lingua english italiano',
+        icon: Languages,
+      },
+      ...(profile.email
+        ? [{ label: t.palette.copyEmail, action: 'copy' as const, value: profile.email, keywords: 'email mail', icon: Copy }]
+        : []),
+      ...(cv ? [{ label: t.hero.downloadCv, action: 'download' as const, value: cv, keywords: 'cv resume pdf curriculum', icon: Download }] : []),
+    ],
+  },
+  {
+    heading: t.palette.links,
+    items: [
+      ...socialLinks.map((s) => ({ label: s.label, action: 'open' as const, value: s.href, keywords: s.handle })),
+      ...(repository ? [{ label: t.footer.source, action: 'open' as const, value: repository, keywords: 'github repo source codice' }] : []),
+    ].map((i) => ({ ...i, icon: ArrowUpRight })),
+  },
+];
+
+let n = 0;
+---
+
+<dialog
+  data-palette
+  aria-label={t.palette.title}
+  class="mx-auto mt-[12vh] w-[min(36rem,calc(100%-2rem))] overflow-hidden rounded-lg border border-line-strong bg-bg p-0 text-fg shadow-2xl backdrop:bg-bg/70 backdrop:backdrop-blur-sm"
+>
+  <div class="flex items-center gap-3 border-b border-line px-4">
+    <Search size={16} aria-hidden="true" class="shrink-0 text-muted" />
+    <input
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-list"
+      aria-autocomplete="list"
+      aria-label={t.palette.title}
+      placeholder={t.palette.placeholder}
+      autocomplete="off"
+      spellcheck="false"
+      class="h-12 w-full bg-transparent text-sm outline-none placeholder:text-muted"
+    />
+  </div>
+
+  <ul id="palette-list" role="listbox" aria-label={t.palette.title} class="max-h-[min(24rem,55vh)] overflow-y-auto p-2">
+    {
+      groups.map((g, gi) => (
+        <li role="presentation" data-group class="not-first:mt-2">
+          <div id={`palette-g${gi}`} role="presentation" class="px-3 pt-2 pb-1 font-mono text-meta text-muted">
+            {g.heading}
+          </div>
+          <ul role="group" aria-labelledby={`palette-g${gi}`}>
+            {g.items.map((i) => (
+              <li
+                id={`palette-o${n++}`}
+                role="option"
+                aria-selected="false"
+                data-action={i.action}
+                data-value={i.value}
+                data-keywords={i.keywords}
+                class="flex min-h-10 cursor-pointer items-center gap-3 rounded-md px-3 text-sm text-muted transition-colors duration-100 aria-selected:bg-surface aria-selected:text-fg"
+              >
+                {i.icon ? <i.icon size={15} aria-hidden="true" class="shrink-0" /> : <Hash size={15} aria-hidden="true" class="shrink-0" />}
+                <span>{i.label}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+  <p data-empty hidden class="px-5 pb-6 text-sm text-muted">{t.palette.empty}</p>
+
+  <div class="flex items-center justify-between gap-4 border-t border-line px-4 py-2.5 font-mono text-meta text-muted">
+    <p class="hidden items-center gap-2 sm:flex">
+      <kbd class="inline-flex items-center gap-1 rounded-sm border border-line px-1.5">
+        ↑↓ <CornerDownLeft size={12} aria-hidden="true" />
+      </kbd>
+      {t.palette.hint}
+    </p>
+    <p data-status data-copied={t.palette.copied} role="status" class="text-accent"></p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-palette]')!;
+  const input = dialog.querySelector('input')!;
+  const options = [...dialog.querySelectorAll<HTMLElement>('[role=option]')];
+  const groups = [...dialog.querySelectorAll<HTMLElement>('[data-group]')];
+  const empty = dialog.querySelector<HTMLElement>('[data-empty]')!;
+  const status = dialog.querySelector<HTMLElement>('[data-status]')!;
+
+  let visible = options;
+  let active = 0;
+  const norm = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+
+  function setActive(i: number) {
+    active = visible.length ? (i + visible.length) % visible.length : 0;
+    const current = visible[active];
+    for (const o of options) o.setAttribute('aria-selected', String(o === current));
+    input.setAttribute('aria-activedescendant', current?.id ?? '');
+    current?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function filter() {
+    const q = norm(input.value.trim());
+    visible = options.filter((o) => {
+      const hit = !q || norm(`${o.textContent} ${o.dataset.keywords ?? ''}`).includes(q);
+      o.hidden = !hit;
+      return hit;
+    });
+    for (const g of groups) g.hidden = !g.querySelector('[role=option]:not([hidden])');
+    empty.hidden = visible.length > 0;
+    setActive(0);
+  }
+
+  function open() {
+    input.value = '';
+    status.textContent = '';
+    filter();
+    dialog.showModal();
+  }
+
+  function run(o: HTMLElement | undefined) {
+    if (!o) return;
+    const value = o.dataset.value ?? '';
+    switch (o.dataset.action) {
+      case 'go':
+        dialog.close();
+        location.hash = value;
+        break;
+      case 'theme':
+        dialog.close();
+        document.querySelector<HTMLButtonElement>('[data-theme-toggle]')?.click();
+        break;
+      case 'nav':
+        location.href = value;
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(value).then(
+          () => {
+            status.textContent = status.dataset.copied ?? '';
+            setTimeout(() => dialog.close(), 900);
+          },
+          () => (location.href = `mailto:${value}`),
+        );
+        break;
+      case 'open':
+        dialog.close();
+        window.open(value, '_blank', 'noopener');
+        break;
+      case 'download': {
+        dialog.close();
+        const a = Object.assign(document.createElement('a'), { href: value, download: '' });
+        a.click();
+        break;
+      }
+    }
+  }
+
+  input.addEventListener('input', filter);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(active + (e.key === 'ArrowDown' ? 1 : -1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      run(visible[active]);
+    }
+  });
+  for (const o of options) {
+    o.addEventListener('click', () => run(o));
+    o.addEventListener('pointermove', () => visible[active] !== o && setActive(visible.indexOf(o)));
+  }
+  // A click on the backdrop lands on the <dialog> itself.
+  dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      dialog.open ? dialog.close() : open();
+    }
+  });
+  for (const b of document.querySelectorAll('[data-palette-open]')) b.addEventListener('click', open);
+
+  if (!/Mac|iPhone|iPad/.test(navigator.userAgent)) {
+    for (const k of document.querySelectorAll('[data-shortcut]')) k.textContent = 'Ctrl K';
+  }
+</script>

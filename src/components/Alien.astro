@@ -1,0 +1,650 @@
+---
+interface Props {
+  /** Localized accessible name for the mascot button. */
+  label: string;
+  /** Localized lines it says when clicked, in order. */
+  lines: string[];
+  /** Localized line for the Konami easter egg. */
+  abducted: string;
+}
+const { label, lines, abducted } = Astro.props;
+---
+
+<!--
+  Decorative companion. It hops between perches ([data-perch="sit"|"peek"|"ride"|"build"], optional data-perch-dy,
+  data-perch-side="right" for rides) as you
+  scroll: "sit" stands on the element's top edge, "peek" hides behind it with only the head showing, "ride" floats
+  down (and back up) along the element with the scroll, "build" holds the tower brick that is pulled out (Stack).
+  The pose follows the perch's section (data-section); the eyes follow the pointer.
+-->
+<div
+  data-alien
+  data-section="top"
+  data-lines={JSON.stringify(lines)}
+  data-abducted={abducted}
+  class="pointer-events-none invisible absolute top-0 left-0 z-30 size-16 data-ready:visible print:hidden sm:size-20"
+>
+  <p
+    data-bubble
+    role="status"
+    class="bubble absolute right-1/2 bottom-full mb-1 w-max max-w-56 rounded-md border border-line-strong bg-surface px-3 py-2 text-meta text-fg shadow-lg"
+  >
+  </p>
+
+  <svg class="ufo" viewBox="0 0 96 64" aria-hidden="true">
+    <path class="beam" d="M36 30 L18 64 H78 L60 30 Z" />
+    <ellipse cx="48" cy="20" rx="14" ry="11" class="dome" />
+    <ellipse cx="48" cy="28" rx="34" ry="8" class="saucer" />
+    <circle cx="30" cy="29" r="2" class="light" />
+    <circle cx="48" cy="31" r="2" class="light" />
+    <circle cx="66" cy="29" r="2" class="light" />
+  </svg>
+
+  <button
+    type="button"
+    data-alien-button
+    aria-label={label}
+    class="pointer-events-auto size-full rounded-full"
+  >
+    <svg viewBox="0 0 80 96" class="alien size-full overflow-visible" aria-hidden="true">
+      <ellipse cx="40" cy="92" rx="13" ry="2.5" class="shadow" />
+      <g class="abduct">
+        <g class="hop">
+          <g class="bob">
+            <path d="M40 18 Q40 10 45 6" class="antenna" />
+            <circle cx="45" cy="6" r="3" class="antenna-tip" />
+
+            <path d="M29 60 Q21 66 23 75" class="limb" />
+            <rect x="32" y="76" width="6" height="10" rx="3" class="body" />
+            <rect x="42" y="76" width="6" height="10" rx="3" class="body" />
+            <ellipse cx="40" cy="66" rx="13" ry="14" class="body" />
+
+            <ellipse cx="40" cy="34" rx="22" ry="18" class="head" />
+            <g class="arm-r">
+              <path d="M52 59 Q58 67 58 76" class="limb" />
+              <!-- Drawn shaft-up from the hand; with the arm raised it ends up almost vertical. -->
+              <g class="acc acc-umbrella" transform="translate(58 76) rotate(115) scale(1.2)">
+                <path d="M0 4 v-66 M0 4 a3 3 0 0 1 -6 0" class="shaft" />
+                <path
+                  d="M-30 -46 Q0 -80 30 -46 Q22.5 -51 15 -46 Q7.5 -51 0 -46 Q-7.5 -51 -15 -46 Q-22.5 -51 -30 -46 Z"
+                  class="canopy"
+                />
+              </g>
+            </g>
+            <g class="eye"><ellipse cx="31" cy="34" rx="6.5" ry="8" transform="rotate(-14 31 34)" class="eye-white" /></g>
+            <g class="eye"><ellipse cx="49" cy="34" rx="6.5" ry="8" transform="rotate(14 49 34)" class="eye-white" /></g>
+            <g data-pupils transform="translate(-1.5 0)">
+              <circle cx="31" cy="35" r="2.6" class="pupil" />
+              <circle cx="49" cy="35" r="2.6" class="pupil" />
+            </g>
+            <path d="M36 45 Q40 48 44 45" class="mouth" />
+
+            <g class="acc acc-glasses">
+              <circle cx="31" cy="34" r="9" />
+              <circle cx="49" cy="34" r="9" />
+              <path d="M22 32 L18 30 M58 32 L62 30" />
+            </g>
+            <g class="acc acc-helmet">
+              <path d="M21 27 A19 15 0 0 1 59 27 Z" />
+              <rect x="16" y="25.5" width="48" height="4" rx="2" />
+            </g>
+            <g class="acc acc-laptop">
+              <rect x="25" y="57" width="30" height="19" rx="2" class="lid" />
+              <circle cx="40" cy="66.5" r="2.2" class="logo" />
+              <rect x="22" y="76" width="36" height="3" rx="1.5" class="base" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </button>
+</div>
+
+<style>
+  [data-alien] {
+    transition: translate 380ms var(--ease-out);
+  }
+  /* Ride/build positions are eased per frame by the script. */
+  [data-alien][data-follow] {
+    transition: none;
+  }
+  /* Hides the part of the alien below its perch's edge, so it looks like it is behind the element. */
+  [data-alien-button] {
+    clip-path: inset(-200px -200px var(--cut, 0px) -200px);
+    transition: clip-path 380ms var(--ease-out);
+  }
+  /* Fills and strokes use theme tokens so both themes work without overrides. */
+  .head,
+  .body {
+    fill: var(--color-alien);
+  }
+  .body {
+    fill: color-mix(in oklab, var(--color-alien) 78%, var(--color-bg));
+  }
+  .limb,
+  .antenna {
+    fill: none;
+    stroke: color-mix(in oklab, var(--color-alien) 78%, var(--color-bg));
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .antenna {
+    stroke: var(--color-alien);
+    stroke-width: 2.5;
+  }
+  .antenna-tip {
+    fill: var(--color-accent);
+  }
+  .eye-white {
+    fill: var(--color-bg);
+  }
+  .pupil {
+    fill: var(--color-fg);
+  }
+  .mouth {
+    fill: none;
+    stroke: var(--color-bg);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+  .shadow {
+    fill: var(--color-line-strong);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .acc {
+    opacity: 0;
+    translate: 0 4px;
+  }
+  .acc-glasses {
+    fill: none;
+    stroke: var(--color-fg);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+  .acc-helmet {
+    fill: var(--color-accent);
+  }
+  .lid {
+    fill: var(--color-surface);
+    stroke: var(--color-line-strong);
+  }
+  .logo {
+    fill: var(--color-alien);
+  }
+  .base {
+    fill: var(--color-line-strong);
+  }
+  .canopy {
+    fill: var(--color-accent);
+    stroke: var(--color-fg);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .shaft {
+    fill: none;
+    stroke: var(--color-fg);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  [data-section='about'] .acc-glasses,
+  [data-section='stack'] .acc-helmet,
+  [data-section='work'] .acc-laptop,
+  [data-section='experience'] .acc-umbrella {
+    opacity: 1;
+    translate: 0;
+  }
+
+  .arm-r {
+    transform-box: view-box;
+    transform-origin: 52px 59px;
+  }
+  [data-section='top'] .arm-r,
+  [data-section='contact'] .arm-r {
+    rotate: -105deg;
+  }
+  /* Experience: floats down the timeline under the umbrella, so no ground shadow. */
+  [data-section='experience'] .arm-r {
+    rotate: -125deg;
+  }
+  [data-section='experience'] .shadow,
+  [data-section='stack'] .shadow {
+    visibility: hidden;
+  }
+
+  .bob,
+  .eye {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hop {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+  }
+  .abduct {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+  }
+
+  .bubble {
+    opacity: 0;
+    translate: 0 4px;
+  }
+  .bubble:empty {
+    display: none;
+  }
+  [data-talking] .bubble {
+    opacity: 1;
+    translate: 0;
+  }
+
+  .ufo {
+    position: absolute;
+    right: -0.5rem;
+    bottom: 100%;
+    width: 6rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .dome {
+    fill: color-mix(in oklab, var(--color-fg) 30%, transparent);
+    stroke: var(--color-muted);
+  }
+  .saucer {
+    fill: var(--color-line-strong);
+    stroke: var(--color-muted);
+  }
+  .light {
+    fill: var(--color-accent);
+  }
+  .beam {
+    fill: color-mix(in oklab, var(--color-accent) 25%, transparent);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .acc {
+      transition:
+        opacity 250ms var(--ease-out),
+        translate 300ms var(--ease-out);
+    }
+    .arm-r {
+      transition: rotate 400ms var(--ease-out);
+    }
+    .bubble {
+      transition:
+        opacity 200ms var(--ease-out),
+        translate 200ms var(--ease-out);
+    }
+    .bob {
+      animation: bob 3.2s ease-in-out infinite;
+    }
+    .shadow {
+      animation: shadow 3.2s ease-in-out infinite;
+    }
+    .eye {
+      animation: blink 5.5s infinite;
+    }
+    .antenna-tip {
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    [data-section='experience'] .bob {
+      transform-origin: 70% 0;
+      animation: sway 2.8s ease-in-out infinite;
+    }
+    [data-section='top'] .arm-r,
+    [data-section='contact'] .arm-r {
+      animation: wave 2.4s ease-in-out infinite;
+    }
+    [data-land] .hop {
+      animation: land 420ms var(--ease-out);
+    }
+    [data-spin] .alien {
+      animation: spin 700ms var(--ease-out);
+    }
+    [data-abducting] .ufo {
+      animation: ufo 3.6s var(--ease-out) both;
+    }
+    [data-abducting] .beam {
+      animation: beam 3.6s linear both;
+    }
+    [data-abducting] .abduct {
+      animation: abduct 3.6s var(--ease-out) both;
+    }
+    [data-abducting] .shadow {
+      animation: none;
+      opacity: 0.3;
+    }
+    .pupils-follow {
+      transition: transform 180ms var(--ease-out);
+    }
+  }
+
+  @keyframes bob {
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+  @keyframes shadow {
+    50% {
+      transform: scaleX(0.8);
+      opacity: 0.6;
+    }
+  }
+  @keyframes blink {
+    0%,
+    92%,
+    100% {
+      transform: scaleY(1);
+    }
+    95% {
+      transform: scaleY(0.1);
+    }
+  }
+  @keyframes pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  @keyframes sway {
+    0%,
+    100% {
+      transform: rotate(-5deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+  }
+  @keyframes wave {
+    0%,
+    60%,
+    100% {
+      rotate: -105deg;
+    }
+    70%,
+    90% {
+      rotate: -125deg;
+    }
+    80% {
+      rotate: -88deg;
+    }
+  }
+  /* Squash on touchdown, a small rebound, then settle. */
+  @keyframes land {
+    0% {
+      transform: scale(1.12, 0.86);
+    }
+    45% {
+      transform: translateY(-2px) scale(0.96, 1.05);
+    }
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @keyframes ufo {
+    0% {
+      opacity: 0;
+      transform: translate(-40px, -90px);
+    }
+    18%,
+    72% {
+      opacity: 1;
+      transform: none;
+    }
+    92%,
+    100% {
+      opacity: 0;
+      transform: translate(-220px, -160px);
+    }
+  }
+  @keyframes beam {
+    0%,
+    20% {
+      opacity: 0;
+    }
+    28%,
+    62% {
+      opacity: 1;
+    }
+    70%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes abduct {
+    0%,
+    28% {
+      transform: none;
+      opacity: 1;
+    }
+    62% {
+      transform: translateY(-70px) scale(0.25);
+      opacity: 0;
+    }
+    84% {
+      transform: translateY(-40px);
+      opacity: 0;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-alien]')!;
+  const button = root.querySelector<HTMLButtonElement>('[data-alien-button]')!;
+  const bubble = root.querySelector<HTMLElement>('[data-bubble]')!;
+  const pupils = root.querySelector<SVGGElement>('[data-pupils]')!;
+  const lines: string[] = JSON.parse(root.dataset.lines ?? '[]');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Retrigger a one-shot CSS animation by toggling its data attribute.
+  function once(attr: string, ms: number) {
+    root.removeAttribute(attr);
+    void root.offsetWidth;
+    root.setAttribute(attr, '');
+    setTimeout(() => root.removeAttribute(attr), ms);
+  }
+
+  let hideTimer: ReturnType<typeof setTimeout>;
+  function say(text: string, ms = 4500) {
+    bubble.textContent = text;
+    root.setAttribute('data-talking', '');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => root.removeAttribute('data-talking'), ms);
+  }
+
+  // Document position, ignoring transforms: scroll reveals shift elements while they animate.
+  function box(el: HTMLElement) {
+    let x = 0;
+    let y = 0;
+    for (let e: HTMLElement | null = el; e; e = e.offsetParent as HTMLElement | null) {
+      x += e.offsetLeft;
+      y += e.offsetTop;
+    }
+    return { y, x, right: x + el.offsetWidth, bottom: y + el.offsetHeight };
+  }
+
+  // Where the alien stands on a perch, in document pixels. Feet are at 90% of the box, the head ends at ~56%.
+  // data-perch-dy (in em) lowers the edge, e.g. from a line box down to the capitals.
+  function spot(perch: HTMLElement) {
+    const b = box(perch);
+    b.y += Number(perch.dataset.perchDy ?? 0) * parseFloat(getComputedStyle(perch).fontSize);
+    const size = root.offsetWidth;
+    const x = Math.max(0, Math.min(b.right, document.documentElement.clientWidth - 8) - size);
+    const sit = b.y - size * 0.9;
+    if (perch.dataset.perch === 'ride') {
+      // Feet follow 45% of the viewport, kept within the element. Left side: the body hangs off the element's edge
+      // (the timeline) with the umbrella hand over it. Right side: it hovers past the element's right edge.
+      const rx =
+        perch.dataset.perchSide === 'right'
+          ? Math.min(b.right - size * 0.35, document.documentElement.clientWidth - size - 4)
+          : Math.max(0, b.x - size * 0.62);
+      const feet = Math.min(Math.max(scrollY + innerHeight * 0.45, b.y + size * 0.9), b.bottom);
+      return { x: rx, sit: feet - size * 0.9, y: feet - size * 0.9, cut: 0 };
+    }
+    if (perch.dataset.perch === 'build') {
+      // The tower is sticky, so measure it live. Hands (~25% across, 78% down) grip the pulled-out brick's end.
+      const r = perch.getBoundingClientRect();
+      const brick = perch.querySelector('[data-active]') ?? perch.firstElementChild!;
+      const br = brick.getBoundingClientRect();
+      const bx = r.right + scrollX + 20 - size * 0.22;
+      const by = br.top + br.height / 2 + scrollY - size * 0.78;
+      return { x: bx, sit: by, y: by, cut: 0 };
+    }
+    if (perch.dataset.perch !== 'peek') return { x, sit, y: sit, cut: 0 };
+    return { x, sit, y: b.y - size * 0.56, cut: size * 0.44 };
+  }
+
+  // The last perch whose edge is above 60% of the viewport; at the very bottom, the last one.
+  const all = [...document.querySelectorAll<HTMLElement>('[data-perch]')];
+  function pick() {
+    const perches = all.filter((p) => p.offsetParent);
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) return perches.at(-1);
+    const line = scrollY + innerHeight * 0.6;
+    return perches.findLast((p) => box(p).y <= line) ?? perches[0];
+  }
+
+  let lastPointer = 0;
+  let flight: Animation | undefined;
+  let at: HTMLElement | undefined;
+  let cur = { x: 0, y: 0 };
+  let raf = 0;
+  let last = 0;
+  function place(x: number, y: number) {
+    cur = { x, y };
+    root.style.translate = `${x}px ${y}px`;
+  }
+
+  // Ride/build: ease toward the scroll-driven spot each frame, so stepped wheel scrolling still glides.
+  // Time-based (~45ms lag) so it feels the same at 60 and 120Hz and stays close to the timeline line.
+  function follow() {
+    const now = performance.now();
+    const k = raf ? 1 - Math.exp(-(now - last) / 45) : 0.3;
+    raf = 0;
+    last = now;
+    if (!at || flight?.playState === 'running') return;
+    const to = spot(at);
+    const dx = to.x - cur.x;
+    const dy = to.y - cur.y;
+    if (reduced.matches || Math.hypot(dx, dy) < 0.5) return place(to.x, to.y);
+    place(cur.x + dx * k, cur.y + dy * k);
+    raf = requestAnimationFrame(follow);
+  }
+
+  function go(perch: HTMLElement, fly: boolean) {
+    const to = spot(perch);
+    const from = getComputedStyle(root).translate;
+    root.dataset.section = perch.closest('section')?.id || 'top';
+    root.toggleAttribute('data-follow', /ride|build/.test(perch.dataset.perch!));
+    cancelAnimationFrame(raf);
+    raf = 0;
+    root.getAnimations().forEach((a) => a.cancel());
+    const rest = () => {
+      place(to.x, to.y);
+      root.style.setProperty('--cut', `${to.cut}px`);
+    };
+    if (!fly || reduced.matches) {
+      root.style.transition = 'none';
+      button.style.transition = 'none';
+      rest();
+      void root.offsetWidth;
+      root.style.transition = button.style.transition = '';
+      return;
+    }
+    // Climb out from behind the old perch, jump in an arc, land standing, then duck behind a "peek" perch.
+    root.style.setProperty('--cut', '0px');
+    root.style.transition = 'none';
+    place(to.x, to.sit);
+    const [fx, fy = 0] = from.split(' ').map(parseFloat);
+    // Quadratic Bézier whose top is 60px above the higher end: x moves steadily, y slows at the apex like a jump.
+    const peak = Math.min(fy, to.sit) - 60;
+    const cy = 2 * peak - (fy + to.sit) / 2;
+    const lean = Math.sign(to.x - fx) * 6;
+    const frames = Array.from({ length: 17 }, (_, i) => {
+      const t = i / 16;
+      const u = 1 - t;
+      return {
+        translate: `${u * fx + t * to.x}px ${u * u * fy + 2 * u * t * cy + t * t * to.sit}px`,
+        rotate: `${lean * Math.sin(Math.PI * t)}deg`,
+      };
+    });
+    const ms = Math.min(900, Math.max(500, Math.hypot(to.x - fx, to.sit - fy) * 0.6));
+    flight = root.animate(frames, { duration: ms, easing: 'cubic-bezier(0.33, 0, 0.4, 1)' });
+    flight.onfinish = () => {
+      root.style.transition = '';
+      once('data-land', 420);
+      rest();
+      // The ride/build spot moved with the scroll during the flight: catch up.
+      if (root.hasAttribute('data-follow')) follow();
+      // Without a pointer to follow, look down at the text it landed on.
+      if (performance.now() - lastPointer > 2000) pupils.setAttribute('transform', 'translate(-2.2 1.6)');
+    };
+  }
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const perch = pick();
+    if (perch && perch !== at) go((at = perch), true);
+    else if (root.hasAttribute('data-follow') && !raf) follow();
+  }
+  addEventListener('scroll', () => ticking || ((ticking = true), requestAnimationFrame(update)), { passive: true });
+  // Layout changes (resize, fonts, images) move the perches: follow without flying.
+  new ResizeObserver(() => at && flight?.playState !== 'running' && go(at, false)).observe(document.body);
+  at = pick();
+  if (at) go(at, false);
+  root.toggleAttribute('data-ready', Boolean(at));
+
+  // Eyes track the pointer, capped so the pupils stay inside the eyes.
+  pupils.classList.add('pupils-follow');
+  let frame = 0;
+  addEventListener(
+    'pointermove',
+    (e) => {
+      if (e.pointerType !== 'mouse' || frame) return;
+      lastPointer = performance.now();
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const r = button.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height * 0.35);
+        const len = Math.hypot(dx, dy) || 1;
+        const k = Math.min(len / 120, 1) * 2.6;
+        pupils.setAttribute('transform', `translate(${((dx / len) * k).toFixed(2)} ${((dy / len) * k * 0.8).toFixed(2)})`);
+      });
+    },
+    { passive: true },
+  );
+
+  let line = 0;
+  let clicks = 0;
+  let clickTimer: ReturnType<typeof setTimeout>;
+  button.addEventListener('click', () => {
+    say(lines[line++ % lines.length]);
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => (clicks = 0), 1200);
+    if (++clicks === 5) {
+      clicks = 0;
+      once('data-spin', 700);
+    }
+  });
+
+  const konami = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+  let progress = 0;
+  addEventListener('keydown', (e) => {
+    if ((e.target as HTMLElement).closest('input, textarea, [contenteditable]')) return;
+    const key = e.key.toLowerCase();
+    progress = key === konami[progress] ? progress + 1 : key === konami[0] ? 1 : 0;
+    if (progress < konami.length) return;
+    progress = 0;
+    say(root.dataset.abducted ?? '', 3600);
+    if (!reduced.matches) once('data-abducting', 3600);
+  });
+</script>
