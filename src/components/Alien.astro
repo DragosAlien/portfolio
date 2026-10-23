@@ -14,7 +14,7 @@ const { label, lines, abducted } = Astro.props;
   Decorative companion. It hops between perches ([data-perch="sit"|"peek"|"ride"|"build"], optional data-perch-dy,
   data-perch-side="right" for rides) as you
   scroll: "sit" stands on the element's top edge, "peek" hides behind it with only the head showing, "ride" floats
-  down (and back up) along the element with the scroll, "build" holds the tower brick that is pulled out (Stack).
+  down (and back up) along the element with the scroll, "build" hammers at the tower brick that is pulled out (Stack).
   The pose follows the perch's section (data-section); the eyes follow the pointer.
 -->
 <div
@@ -54,7 +54,14 @@ const { label, lines, abducted } = Astro.props;
             <path d="M40 18 Q40 10 45 6" class="antenna" />
             <circle cx="45" cy="6" r="3" class="antenna-tip" />
 
-            <path d="M29 60 Q21 66 23 75" class="limb" />
+            <g class="arm-l">
+              <path d="M29 60 Q21 66 23 75" class="limb" />
+              <!-- Handle along the forearm, head across it; raised, the arm swings it at the tower on the left. -->
+              <g class="acc acc-hammer" transform="translate(23 75) rotate(112) scale(1.3)">
+                <path d="M-1 0 H17" class="shaft" />
+                <rect x="14" y="-7" width="7" height="14" rx="1.5" class="hammer-head" />
+              </g>
+            </g>
             <rect x="32" y="76" width="6" height="10" rx="3" class="body" />
             <rect x="42" y="76" width="6" height="10" rx="3" class="body" />
             <ellipse cx="40" cy="66" rx="13" ry="14" class="body" />
@@ -182,6 +189,11 @@ const { label, lines, abducted } = Astro.props;
     stroke-width: 1.4;
     stroke-linejoin: round;
   }
+  .hammer-head {
+    fill: var(--color-line-strong);
+    stroke: var(--color-fg);
+    stroke-width: 1.4;
+  }
   .shaft {
     fill: none;
     stroke: var(--color-fg);
@@ -191,6 +203,7 @@ const { label, lines, abducted } = Astro.props;
 
   [data-section='about'] .acc-glasses,
   [data-section='stack'] .acc-helmet,
+  [data-section='stack'] .acc-hammer,
   [data-section='work'] .acc-laptop,
   [data-section='experience'] .acc-umbrella {
     opacity: 1;
@@ -204,6 +217,14 @@ const { label, lines, abducted } = Astro.props;
   [data-section='top'] .arm-r,
   [data-section='contact'] .arm-r {
     rotate: -105deg;
+  }
+  .arm-l {
+    transform-box: view-box;
+    transform-origin: 29px 60px;
+  }
+  /* Stack: the hammer rests on the pulled-out brick. */
+  [data-section='stack'] .arm-l {
+    rotate: 75deg;
   }
   /* Experience: floats down the timeline under the umbrella, so no ground shadow. */
   [data-section='experience'] .arm-r {
@@ -270,8 +291,12 @@ const { label, lines, abducted } = Astro.props;
         opacity 250ms var(--ease-out),
         translate 300ms var(--ease-out);
     }
-    .arm-r {
+    .arm-r,
+    .arm-l {
       transition: rotate 400ms var(--ease-out);
+    }
+    [data-section='stack'] .arm-l {
+      animation: hammer 1.1s 400ms infinite;
     }
     .bubble {
       transition:
@@ -369,6 +394,24 @@ const { label, lines, abducted } = Astro.props;
     }
     80% {
       rotate: -88deg;
+    }
+  }
+  /* Wind up slowly, strike fast (22%: the head hits the brick), small rebound. */
+  @keyframes hammer {
+    0%,
+    100% {
+      rotate: 115deg;
+      animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.4);
+    }
+    22% {
+      rotate: 75deg;
+    }
+    30% {
+      rotate: 84deg;
+    }
+    38% {
+      rotate: 75deg;
+      animation-timing-function: ease-in-out;
     }
   }
   /* Squash on touchdown, a small rebound, then settle. */
@@ -490,12 +533,13 @@ const { label, lines, abducted } = Astro.props;
       return { x: rx, sit: feet - size * 0.9, y: feet - size * 0.9, cut: 0 };
     }
     if (perch.dataset.perch === 'build') {
-      // The tower is sticky, so measure it live. Hands (~25% across, 78% down) grip the pulled-out brick's end.
+      // The tower is sticky, so measure it live. At the strike the hammer's face is ~5% left of it and 58% down the box:
+      // put it on the end of the pulled-out brick (1.25rem past the tower, see Stack).
       const r = perch.getBoundingClientRect();
       const brick = perch.querySelector('[data-active]') ?? perch.firstElementChild!;
       const br = brick.getBoundingClientRect();
-      const bx = r.right + scrollX + 20 - size * 0.22;
-      const by = br.top + br.height / 2 + scrollY - size * 0.78;
+      const bx = r.right + scrollX + 20 + size * 0.05;
+      const by = br.top + br.height / 2 + scrollY - size * 0.58;
       return { x: bx, sit: by, y: by, cut: 0 };
     }
     if (perch.dataset.perch !== 'peek') return { x, sit, y: sit, cut: 0 };
@@ -562,9 +606,13 @@ const { label, lines, abducted } = Astro.props;
     root.style.setProperty('--cut', '0px');
     root.style.transition = 'none';
     place(to.x, to.sit);
-    const [fx, fy = 0] = from.split(' ').map(parseFloat);
+    const [fx, oy = 0] = from.split(' ').map(parseFloat);
+    // A long section scrolls the old perch out of view: start from the viewport edge so the jump is seen, not a pop-in.
+    const half = root.offsetWidth / 2;
+    const fy = Math.min(Math.max(oy, scrollY - half), scrollY + innerHeight - half);
     // Quadratic Bézier whose top is 60px above the higher end: x moves steadily, y slows at the apex like a jump.
-    const peak = Math.min(fy, to.sit) - 60;
+    // Never above the viewport: coming in from the top edge, it drops in instead of jumping out of sight.
+    const peak = Math.max(Math.min(fy, to.sit) - 60, scrollY);
     const cy = 2 * peak - (fy + to.sit) / 2;
     const lean = Math.sign(to.x - fx) * 6;
     const frames = Array.from({ length: 17 }, (_, i) => {
@@ -601,6 +649,21 @@ const { label, lines, abducted } = Astro.props;
   at = pick();
   if (at) go(at, false);
   root.toggleAttribute('data-ready', Boolean(at));
+
+  // Each hammer strike knocks the pulled-out brick in a little; it springs back out.
+  // Keep in sync: 1100ms and 22% with the `hammer` keyframes above, 1.25rem with `.brick[data-active]` in Stack.
+  const armL = root.querySelector('.arm-l')!;
+  const strike = (e: Event) => {
+    if ((e as AnimationEvent).animationName !== 'hammer') return;
+    setTimeout(() => {
+      at?.querySelector('[data-active]')?.animate(
+        [{ translate: '1.25rem 0' }, { translate: '0.9rem 0' }, { translate: '1.25rem 0' }],
+        { duration: 260, easing: 'ease-out' },
+      );
+    }, 1100 * 0.22);
+  };
+  armL.addEventListener('animationstart', strike);
+  armL.addEventListener('animationiteration', strike);
 
   // Eyes track the pointer, capped so the pupils stay inside the eyes.
   pupils.classList.add('pupils-follow');
