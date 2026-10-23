@@ -38,8 +38,8 @@ export const profile = {
   },
 };
 
-/** This site's repository. TODO: set once it exists on GitHub, e.g. https://github.com/DragosAlien/<repo> */
-export const repository: string | null = null;
+/** This site's repository. */
+export const repository: string | null = 'https://github.com/DragosAlien/portfolio';
 
 /** Configured social profiles only. `handle` is the URL without protocol, shown where space allows. */
 export const socialLinks = [
