@@ -8,29 +8,54 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-// Rule brightness fades with depth (interface on top, systems at the bottom); tooling is dashed because it spans every layer.
+// Each layer is a block; its edge brightness fades with depth (interface on top, systems at the bottom).
+// Tooling is dashed because it spans every layer.
 const rows = [
-  ...layers.map((l, i) => ({ ...l, rule: `border-color:color-mix(in oklab, var(--color-fg) ${90 - i * 18}%, var(--color-line))` })),
+  ...layers.map((l, i) => ({ ...l, rule: `border-left-color:color-mix(in oklab, var(--color-fg) ${90 - i * 18}%, var(--color-line))` })),
   { ...tooling, rule: undefined },
 ];
 ---
 
-<Section id="stack" heading={t.stack.heading}>
-  <p class="max-w-measure text-sm text-muted">{t.stack.intro}</p>
-  <ul class="mt-8 space-y-1">
+<Section id="stack" index={4} heading={t.stack.heading}>
+  <!--
+    Decorative mini tower of the same layers, sticky under the heading on large screens. The layer you are reading
+    gets pulled out (data-active) and the alien holds it ("build" perch, see Alien). Smaller screens: the alien peeks.
+  -->
+  <ol slot="aside" data-perch="build" aria-hidden="true" class="mt-8 hidden w-32 space-y-1 lg:block">
     {
       rows.map((l) => (
         <li
+          data-brick
           class:list={[
-            'grid gap-2 border-l-2 py-4 pr-4 pl-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:pl-5',
-            l.rule ? 'bg-surface/60' : 'mt-4 border-dashed border-accent/70',
+            'brick truncate rounded-sm border border-l-4 bg-surface px-2 py-1 font-mono text-meta text-muted',
+            l.rule ? 'border-line' : 'border-dashed border-accent/70',
+          ]}
+          style={l.rule}
+        >
+          {l.name[locale]}
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="max-w-measure text-sm text-muted">{t.stack.intro}</p>
+  <!-- Smaller screens: the alien peeks over the first block from this marker; the gap above fits its head. -->
+  <div data-perch="peek" class="mt-10 lg:hidden"></div>
+  <ul class="space-y-2 lg:mt-8">
+    {
+      rows.map((l) => (
+        <li
+          data-layer
+          class:list={[
+            'layer grid gap-2 rounded-md border border-l-4 py-4 pr-4 pl-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:pl-5',
+            l.rule ? 'border-line border-b-line-strong bg-surface' : 'mt-4 border-dashed border-accent/70',
           ]}
           style={l.rule}
         >
           <h3 class="text-sm font-medium">{l.name[locale]}</h3>
           <div>
             <p class="flex flex-wrap gap-x-4 gap-y-1">
-              {l.tech.map((x) => <span>{x}</span>)}
+              {l.tech.map((x) => <span data-tech={x}>{x}</span>)}
             </p>
             <p class="mt-1 text-meta text-muted">
               {l.note[locale]} {!l.rule && t.stack.crossCutting}
@@ -41,3 +66,44 @@ const rows = [
     }
   </ul>
 </Section>
+
+<style>
+  .brick {
+    transition:
+      translate 350ms var(--ease-out),
+      rotate 350ms var(--ease-out),
+      color 200ms;
+  }
+  .brick[data-active] {
+    translate: 1.25rem 0;
+    rotate: 2deg;
+    color: var(--color-fg);
+  }
+  .layer h3 {
+    transition: color 200ms;
+  }
+  .layer[data-active] h3 {
+    color: var(--color-accent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brick {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // The layer at 45% of the viewport (where the alien's hands are) is the active one, in the list and in the tower.
+  const layers = [...document.querySelectorAll<HTMLElement>('[data-layer]')];
+  const bricks = [...document.querySelectorAll<HTMLElement>('[data-brick]')];
+  let ticking = false;
+  function sync() {
+    ticking = false;
+    const line = innerHeight * 0.45;
+    const active = Math.max(0, layers.findLastIndex((l) => l.getBoundingClientRect().top <= line));
+    layers.forEach((l, i) => l.toggleAttribute('data-active', i === active));
+    bricks.forEach((b, i) => b.toggleAttribute('data-active', i === active));
+  }
+  addEventListener('scroll', () => ticking || ((ticking = true), requestAnimationFrame(sync)), { passive: true });
+  sync();
+</script>

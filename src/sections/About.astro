@@ -10,9 +10,9 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id="about" heading={t.about.heading}>
-  <div class="max-w-measure space-y-4 text-fg/90">
-    {t.about.body.map((p) => <p>{p}</p>)}
+<Section id="about" index={1} heading={t.about.heading}>
+  <div data-perch="peek" class="max-w-measure space-y-4 text-fg/80">
+    {t.about.body.map((p) => <p class="first:text-xl first:text-fg">{p}</p>)}
   </div>
 
   <dl class="mt-10 grid gap-6 sm:grid-cols-2">

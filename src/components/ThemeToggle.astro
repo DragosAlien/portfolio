@@ -14,7 +14,7 @@ const { label } = Astro.props;
   data-theme-toggle
   aria-label={label}
   aria-pressed="true"
-  class="inline-flex size-9 items-center justify-center rounded-sm text-muted transition-colors duration-150 hover:text-fg"
+  class="inline-flex size-9 items-center justify-center rounded-full text-muted transition-colors duration-150 hover:text-fg"
 >
   <Moon size={16} aria-hidden="true" class="theme-dark-only" />
   <Sun size={16} aria-hidden="true" class="theme-light-only" />
@@ -33,12 +33,26 @@ const { label } = Astro.props;
     const button = document.querySelector('[data-theme-toggle]');
     const sync = () => button.setAttribute('aria-pressed', String(root.dataset.theme !== 'light'));
     sync();
-    button.addEventListener('click', () => {
+    const apply = () => {
       root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
       try {
         localStorage.setItem('theme', root.dataset.theme);
       } catch {}
       sync();
+    };
+    button.addEventListener('click', () => {
+      if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+      // The new theme grows as a circle from the toggle.
+      const r = button.getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(apply).ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+          { duration: 550, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)', pseudoElement: '::view-transition-new(root)' },
+        );
+      });
     });
   })();
 </script>

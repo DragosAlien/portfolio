@@ -7,5 +7,20 @@ const { items, class: className } = Astro.props;
 ---
 
 <ul class:list={['flex flex-wrap gap-x-3 gap-y-1 font-mono text-meta text-muted', className]}>
-  {items.map((item) => <li>{item}</li>)}
+  {items.map((item) => <li data-tech={item}>{item}</li>)}
 </ul>
+
+<script>
+  // Hovering a technology lights up every mention of it (Work, Experience, Stack).
+  let current = '';
+  const mark = (name: string) => {
+    if (name === current) return;
+    current = name;
+    for (const el of document.querySelectorAll<HTMLElement>('[data-tech]')) {
+      el.classList.toggle('tech-hl', el.dataset.tech === name);
+    }
+  };
+  document.addEventListener('pointerover', (e) => {
+    mark((e.target as HTMLElement).closest<HTMLElement>('[data-tech]')?.dataset.tech ?? '');
+  });
+</script>

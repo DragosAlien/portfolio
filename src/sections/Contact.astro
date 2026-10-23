@@ -11,17 +11,27 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const cv = publicFile(profile.cv[locale]);
 
-type Row = { label: string; href: string; text: string; kind: 'mail' | 'external' | 'download' };
+type Row = { label: string; href: string; text: string; kind: 'external' | 'download' };
 const rows: Row[] = [
-  ...(profile.email ? [{ label: t.contact.email, href: `mailto:${profile.email}`, text: profile.email, kind: 'mail' as const }] : []),
   ...socialLinks.map((s) => ({ label: s.label, href: s.href, text: s.handle, kind: 'external' as const })),
   ...(cv ? [{ label: 'CV', href: cv, text: `${t.hero.downloadCv} (PDF)`, kind: 'download' as const }] : []),
 ];
 ---
 
-<Section id="contact" heading={t.contact.heading}>
+<Section id="contact" index={5} heading={t.contact.heading}>
   <p class="max-w-measure text-balance">{t.contact.body}</p>
-  <dl class="mt-8 space-y-4 text-sm sm:space-y-2">
+  {
+    profile.email && (
+      <a
+        href={`mailto:${profile.email}`}
+        aria-label={`${t.contact.email}: ${profile.email}`}
+        class="link mt-6 inline-block text-xl font-medium tracking-tight break-all md:text-4xl"
+      >
+        {profile.email}
+      </a>
+    )
+  }
+  <dl data-perch="sit" class="mt-8 space-y-4 text-sm sm:space-y-2">
     {
       rows.map((r) => (
         <div class="flex flex-col sm:flex-row sm:gap-6">

@@ -2,14 +2,23 @@
 interface Props {
   id: string;
   heading: string;
+  /** Position on the page, shown as a small "01" above the heading. */
+  index: number;
 }
-const { id, heading } = Astro.props;
+const { id, heading, index } = Astro.props;
 ---
 
 <section id={id} aria-labelledby={`${id}-heading`} class="wrap">
   <div class="grid gap-6 border-t border-line py-12 md:grid-cols-12 md:gap-8 md:py-16">
-    <h2 id={`${id}-heading`} class="font-medium md:col-span-3">{heading}</h2>
-    <div class="min-w-0 md:col-span-9">
+    <!-- On desktop the heading stays in view while its section scrolls past. -->
+    <div class="scroll-reveal md:col-span-3">
+      <div class="md:sticky md:top-24">
+        <p aria-hidden="true" class="font-mono text-meta text-muted">{String(index).padStart(2, '0')}</p>
+        <h2 id={`${id}-heading`} class="mt-1 text-2xl font-medium tracking-tight">{heading}</h2>
+        <slot name="aside" />
+      </div>
+    </div>
+    <div class="scroll-reveal min-w-0 md:col-span-9">
       <slot />
     </div>
   </div>

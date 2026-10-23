@@ -12,35 +12,33 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const cv = publicFile(profile.cv[locale]);
-
-const facts = [
-  { label: t.hero.facts.basedIn, value: `${profile.location.city}, ${profile.location.region[locale]}` },
-  { label: t.hero.facts.currently, value: `${profile.current.role}, ${profile.current.company}` },
-  { label: t.hero.facts.experience, value: t.hero.facts.experienceValue },
-];
+const [first, ...rest] = profile.name.split(' ');
 ---
 
-<section class="wrap pt-14 pb-16 md:pt-24 md:pb-24">
-  <div class="reveal flex items-center gap-4" style="--i:0">
-    <!-- Decorative: the name is right next to it. -->
+<section class="wrap pt-12 pb-14 md:pt-20 md:pb-20">
+  <p class="reveal flex items-center gap-3 font-mono text-meta text-muted" style="--i:0">
+    <!-- Decorative: the name is right below it. -->
     <Image
       src={photo}
       alt=""
-      width={56}
-      height={56}
+      width={32}
+      height={32}
       densities={[1, 2]}
       loading="eager"
-      class="size-14 shrink-0 rounded-md bg-surface object-cover ring-1 ring-line"
+      class="size-8 shrink-0 rounded-full bg-surface object-cover ring-1 ring-line"
     />
-    <div>
-      <h1 class="font-medium">{profile.name}</h1>
-      <p class="text-muted">{t.hero.title}</p>
-    </div>
-  </div>
+    <span aria-hidden="true" class="pulse relative size-1.5 shrink-0 rounded-full bg-accent"></span>
+    <span>{t.hero.title} · {profile.current.company}</span>
+  </p>
 
-  <p class="reveal mt-8 max-w-statement text-lead text-balance md:mt-10" style="--i:1">{t.hero.lead}</p>
+  <!-- The alien sits on the first name (data-perch, see Alien); the line box starts above the capitals. -->
+  <h1 class="reveal mt-16 text-display font-medium uppercase md:mt-14" style="--i:1">
+    <span data-perch="sit" data-perch-dy="0.1" class="inline-block">{first}</span><br />{rest.join(' ')}
+  </h1>
 
-  <div class="reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-4" style="--i:2">
+  <p class="reveal mt-8 max-w-measure text-lg text-pretty text-fg/85 md:mt-10" style="--i:2">{t.hero.lead}</p>
+
+  <div class="reveal mt-8 flex flex-wrap items-center gap-x-6 gap-y-4" style="--i:3">
     <div class="flex flex-wrap gap-3">
       <a
         href="#work"
@@ -76,14 +74,25 @@ const facts = [
     }
   </div>
 
-  <dl class="reveal mt-14 grid gap-5 sm:grid-cols-3 md:mt-20" style="--i:3">
-    {
-      facts.map((f) => (
-        <div>
-          <dt class="font-mono text-meta text-muted">{f.label}</dt>
-          <dd class="mt-1 text-sm">{f.value}</dd>
-        </div>
-      ))
-    }
-  </dl>
+  <p class="reveal mt-14 border-t border-line pt-4 font-mono text-meta text-muted md:mt-20" style="--i:4">
+    {profile.location.city}, {profile.location.region[locale]}
+    <span data-clock={profile.location.timeZone} hidden> · <time></time> {t.hero.localTime}</span>
+  </p>
 </section>
+
+<script>
+  // Local time next to the location; without JS the row just shows the place.
+  const clock = document.querySelector<HTMLElement>('[data-clock]');
+  if (clock) {
+    const time = clock.querySelector('time')!;
+    const fmt = new Intl.DateTimeFormat(document.documentElement.lang, {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: clock.dataset.clock,
+    });
+    const tick = () => (time.textContent = fmt.format(new Date()));
+    tick();
+    setInterval(tick, 15_000);
+    clock.hidden = false;
+  }
+</script>

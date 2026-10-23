@@ -4,6 +4,7 @@ import { useTranslations, type Locale } from '~/i18n';
 import { profile } from '~/data/profile';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import Search from '@lucide/astro/icons/search';
 
 interface Props {
   locale: Locale;
@@ -17,29 +18,115 @@ const links = [
   { href: '#stack', label: t.nav.stack },
   { href: '#contact', label: t.nav.contact },
 ];
+const initials = profile.name
+  .split(' ')
+  .map((w) => w[0])
+  .join('');
 ---
 
-<header class="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-sm">
-  <div class="wrap flex h-14 items-center justify-between gap-6">
-    <a href={getRelativeLocaleUrl(locale, '')} class="text-sm font-medium">{profile.name}</a>
-    <div class="flex items-center gap-4 md:gap-6">
-      <nav aria-label={t.a11y.mainNav} class="hidden md:block">
-        <ul class="flex gap-4 text-sm text-muted">
-          {
-            links.map((l) => (
-              <li>
-                <a href={l.href} class="inline-flex h-9 items-center px-1 transition-colors duration-150 hover:text-fg">
-                  {l.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <div class="flex items-center gap-2">
-        <ThemeToggle label={t.a11y.darkTheme} />
-        <LanguageSwitcher locale={locale} path={path} label={t.a11y.languageNav} />
-      </div>
-    </div>
+<header class="header pointer-events-none sticky top-0 z-40 px-3 pt-4">
+  <div
+    class="pill pointer-events-auto mx-auto flex w-fit max-w-full items-center gap-1 rounded-full border border-line bg-bg/85 p-1 backdrop-blur-sm"
+  >
+    <a
+      href={getRelativeLocaleUrl(locale, '')}
+      aria-label={profile.name}
+      class="inline-flex size-9 items-center justify-center rounded-full font-mono text-meta font-medium transition-colors duration-150 hover:text-accent"
+    >
+      {initials}
+    </a>
+    <nav aria-label={t.a11y.mainNav} class="hidden md:block">
+      <ul data-spy class="relative flex text-sm text-muted">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="inline-flex h-9 items-center rounded-full px-3 transition-colors duration-150 hover:text-fg aria-[current]:text-fg"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+        <span data-spy-bar aria-hidden="true" class="absolute bottom-1 left-0 h-0.5 rounded-full bg-accent opacity-0"></span>
+      </ul>
+    </nav>
+    <span aria-hidden="true" class="mx-1 hidden h-5 w-px bg-line md:block"></span>
+    <button
+      type="button"
+      data-palette-open
+      aria-haspopup="dialog"
+      aria-label={t.palette.open}
+      class="inline-flex h-9 items-center gap-2 rounded-full px-3 text-muted transition-colors duration-150 hover:text-fg"
+    >
+      <Search size={15} aria-hidden="true" />
+      <kbd data-shortcut class="hidden font-mono text-meta sm:inline">⌘K</kbd>
+    </button>
+    <ThemeToggle label={t.a11y.darkTheme} />
+    <LanguageSwitcher locale={locale} path={path} label={t.a11y.languageNav} />
   </div>
 </header>
+
+<style>
+  /* The pill tucks closer to the top edge and gains a shadow once the page scrolls. CSS only. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .header {
+        animation: tuck linear both;
+        animation-timeline: scroll();
+        animation-range: 0 120px;
+      }
+      .pill {
+        animation: lift linear both;
+        animation-timeline: scroll();
+        animation-range: 0 120px;
+      }
+    }
+  }
+  @keyframes tuck {
+    to {
+      padding-top: 0.5rem;
+    }
+  }
+  @keyframes lift {
+    to {
+      box-shadow: 0 8px 24px -12px var(--color-bg);
+      border-color: var(--color-line-strong);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-spy-bar] {
+      transition:
+        translate 300ms var(--ease-out),
+        width 300ms var(--ease-out),
+        opacity 200ms;
+    }
+  }
+</style>
+
+<script>
+  // Scroll spy: marks the link of the section under the middle of the viewport and slides the bar under it.
+  // At the very bottom the last section wins, since a short Contact never reaches the middle.
+  const list = document.querySelector<HTMLElement>('[data-spy]')!;
+  const bar = list.querySelector<HTMLElement>('[data-spy-bar]')!;
+  const links = [...list.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+  const sections = [...document.querySelectorAll<HTMLElement>('main > section')];
+
+  let ticking = false;
+  function spy() {
+    ticking = false;
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    const current = atBottom ? sections.at(-1) : sections.findLast((s) => s.getBoundingClientRect().top <= innerHeight / 2);
+    const active = links.find((a) => a.hash === `#${current?.id}`);
+    for (const a of links) a === active ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current');
+    bar.style.opacity = active ? '1' : '0';
+    if (active) {
+      bar.style.width = `${active.offsetWidth - 24}px`;
+      bar.style.translate = `${active.parentElement!.offsetLeft + 12}px 0`;
+    }
+  }
+  addEventListener('scroll', () => ticking || ((ticking = true), requestAnimationFrame(spy)), { passive: true });
+  addEventListener('resize', spy);
+  spy();
+</script>

@@ -13,6 +13,8 @@
   --color-fg: #e4e7eb;
   --color-muted: #8a929d;
   --color-accent: #d9a95b;
+  /* Mascot only: never used for text or UI state. */
+  --color-alien: #8cc79a;
 
   /* Line lengths. */
   --container-measure: 64ch;
@@ -24,9 +26,10 @@
   /* Type scale (1.25 ratio from 16px), tuned for Plex. */
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;
-  --text-lead: clamp(1.625rem, 1.1rem + 2.2vw, 2.625rem);
-  --text-lead--line-height: 1.2;
-  --text-lead--letter-spacing: -0.02em;
+  /* The one display size: the name in the hero. */
+  --text-display: clamp(3.5rem, 1.2rem + 10vw, 9rem);
+  --text-display--line-height: 0.88;
+  --text-display--letter-spacing: -0.045em;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -41,6 +44,7 @@
   --color-fg: #15181d;
   --color-muted: #5a626d;
   --color-accent: #8f5f14;
+  --color-alien: #4a9a5c;
 }
 
 @layer base {
@@ -84,6 +88,76 @@
       transform: translateY(6px);
     }
   }
+}
+
+/* Scroll-driven, CSS only: browsers without view timelines simply show everything in place. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .scroll-reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+    }
+
+    /* Experience: the timeline draws itself as you read down it. The line's end tracks 45% of the viewport
+       (55vh from the bottom), the same point the alien's feet follow while it rides down (see Alien). */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -1px;
+      width: 1px;
+      background: var(--color-muted);
+      transform-origin: top;
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 55vh exit 55vh;
+    }
+    @keyframes draw {
+      from {
+        transform: scaleY(0);
+      }
+    }
+  }
+
+  /* Current role: a slow pulse on its timeline dot. */
+  .pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-accent);
+    animation: ping 2.4s var(--ease-out) infinite;
+  }
+  @keyframes ping {
+    70%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  /* Theme switch: the new theme grows out of the toggle (see ThemeToggle). */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+/* Hovering a technology highlights it everywhere on the page. */
+[data-tech] {
+  transition: color 150ms;
+}
+.tech-hl {
+  color: var(--color-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
