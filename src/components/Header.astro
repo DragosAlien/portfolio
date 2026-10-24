@@ -30,10 +30,9 @@ const initials = profile.name
   <div class="wrap flex h-14 items-center gap-1">
     <a
       href={getRelativeLocaleUrl(locale, '')}
-      aria-label={profile.name}
       class="-ml-2 inline-flex h-9 items-center rounded-md px-2 font-mono text-meta font-medium transition-colors duration-150 hover:text-accent"
     >
-      {initials}
+      {initials}<span class="sr-only"> {profile.name}</span>
     </a>
     <!-- Mobile: the current section, filled in by the scroll spy; opens the command menu. -->
     <button

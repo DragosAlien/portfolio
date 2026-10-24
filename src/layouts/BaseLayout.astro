@@ -2,6 +2,7 @@
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLocale, locales, useTranslations, type Locale } from '~/i18n';
 import { profile } from '~/data/profile';
+import { layers, tooling } from '~/data/stack';
 import photo from '~/assets/profile.jpg';
 import '~/styles/global.css';
 
@@ -23,12 +24,13 @@ const sameAs = [profile.github, profile.linkedin].filter(Boolean);
 const image = new URL(photo.src, Astro.site).href;
 const card = new URL(`${import.meta.env.BASE_URL}og.png`, Astro.site).href;
 
+const personId = `${getAbsoluteLocaleUrl(defaultLocale, '')}#person`;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Person',
-      '@id': `${getAbsoluteLocaleUrl(defaultLocale, '')}#person`,
+      '@id': personId,
       name: profile.name,
       jobTitle: profile.jobTitle,
       image,
@@ -41,13 +43,19 @@ const jsonLd = {
         addressCountry: profile.location.countryCode,
       },
       knowsLanguage: ['it', 'ro', 'en'],
+      worksFor: { '@type': 'Organization', name: profile.current.company },
+      alumniOf: { '@type': 'EducationalOrganization', name: profile.education.school },
+      knowsAbout: [...new Set([...layers, tooling].flatMap((l) => l.tech))],
     },
     {
       '@type': 'WebSite',
       name: profile.name,
       url: getAbsoluteLocaleUrl(locale, ''),
       inLanguage: locale,
+      author: { '@id': personId },
     },
+    // Only real pages are profile pages; the 404 keeps just the Person and WebSite.
+    ...(noindex ? [] : [{ '@type': 'ProfilePage', url: canonical, inLanguage: locale, mainEntity: { '@id': personId } }]),
   ],
 };
 ---

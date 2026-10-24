@@ -25,14 +25,13 @@ const { locale, path, label } = Astro.props;
             href={getRelativeLocaleUrl(l, path)}
             hreflang={l}
             lang={l}
-            aria-label={localeNames[l]}
             aria-current={l === locale ? 'page' : undefined}
             class:list={[
               'inline-flex h-9 items-center rounded-md px-1.5 transition-colors duration-150',
               l === locale ? 'text-accent' : 'text-muted hover:text-fg',
             ]}
           >
-            {l.toUpperCase()}
+            {l.toUpperCase()}<span class="sr-only"> {localeNames[l]}</span>
           </a>
         </li>
       ))
