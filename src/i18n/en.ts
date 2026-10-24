@@ -22,7 +22,7 @@ const en = {
   },
   hero: {
     title: 'Software Developer',
-    lead: 'Dragos works across the stack, wherever the problem is: the web applications clients use every day, their integrations with external systems, the Linux servers they run on and the pipelines that ship them. On the side, AI tools.',
+    lead: 'I work across the stack, wherever the problem is: the web applications clients use every day, their integrations with external systems, the Linux servers they run on and the pipelines that ship them. On the side, AI tools.',
     viewWork: 'View work',
     downloadCv: 'Download CV',
     localTime: 'local time',
@@ -30,9 +30,9 @@ const en = {
   about: {
     heading: 'About',
     body: [
-      'At PARENTESIKUADRA Dragos builds and maintains Laravel business applications with React and Inertia.js frontends, and is the main author of several of them, Klancy among them: a multi-tenant platform built on WebSockets. He connects them to payments, webhooks, third-party APIs and SOAP services, and handles the releases himself.',
-      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates. He writes tests with PHPUnit, Pest and Vitest, and he also works on legacy PHP code.',
-      'He talks to clients directly, so requirements, code and support stay with one person. On the side he builds prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of his own workflow.',
+      'At PARENTESIKUADRA I build and maintain Laravel business applications with React and Inertia.js frontends, and I am the main author of several of them, Klancy among them: a multi-tenant platform built on WebSockets. I connect them to payments, webhooks, third-party APIs and SOAP services, and I handle the releases myself.',
+      'I also look after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, I track down why and fix it there, not with a workaround. The applications run in Docker on Linux servers that I maintain and migrate. I write tests with PHPUnit, Pest and Vitest, and I also work on legacy PHP code.',
+      'I talk to clients directly, so requirements, code and support stay with one person. On the side I build prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of my own workflow.',
     ],
     languages: 'Languages',
     education: 'Education',
@@ -40,7 +40,7 @@ const en = {
   work: {
     heading: 'Selected work',
     professional: 'Professional',
-    professionalNote: 'A selection of the client and company projects Dragos builds and runs. The code is private, so this covers what each one does.',
+    professionalNote: 'A selection of the client and company projects I build and run. The code is private, so this covers what each one does.',
     openSource: 'Open source',
     allRepos: 'All repositories on GitHub',
     repository: 'Source',
@@ -65,7 +65,7 @@ const en = {
   },
   contact: {
     heading: 'Contact',
-    body: 'Email is the fastest way to reach Dragos.',
+    body: 'Email is the fastest way to reach me.',
     email: 'Email',
   },
   palette: {

@@ -20,6 +20,7 @@ builds and operates software, not a marketing page.
 - Facts only, from the CV/profile data. No invented achievements, metrics, clients, testimonials or repo stats.
 - Private professional work: describe scope, responsibilities and technologies; never imply it is open source.
 - Avoid: "passionate", "crafting", "digital experiences", "innovative", LinkedIn tone, emojis.
+- First person ("I build…", "Sviluppo…"); experience bullets stay subjectless like a CV. The mascot is the exception: it talks about Dragos in the third person.
 - Sentence case. Plain verbs. Buttons say what happens ("Download CV", "Scarica CV").
 
 ## Visual system

@@ -24,8 +24,8 @@ const all: Project[] = [
     year: '2023–',
     status: { en: 'In production', it: 'In produzione' },
     description: {
-      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. Dragos is the only developer of the current Laravel and React version and keeps it running.',
-      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Dragos è l’unico sviluppatore della versione attuale in Laravel e React e ne segue la gestione.',
+      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. I am the only developer of the current Laravel and React version and keep it running.',
+      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Sono l’unico sviluppatore della versione attuale in Laravel e React e ne seguo la gestione.',
     },
     tech: ['Laravel', 'React', 'Inertia.js', 'Redis', 'WebSockets', 'PWA'],
   },
