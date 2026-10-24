@@ -38,6 +38,7 @@ const { label } = Astro.props;
       try {
         localStorage.setItem('theme', root.dataset.theme);
       } catch {}
+      document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root).getPropertyValue('--color-bg').trim();
       sync();
     };
     button.addEventListener('click', () => {

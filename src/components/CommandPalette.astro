@@ -171,7 +171,8 @@ let n = 0;
     switch (o.dataset.action) {
       case 'go':
         dialog.close();
-        location.hash = value;
+        // A click scrolls even when the URL already has this hash; `location.hash = value` would not.
+        Object.assign(document.createElement('a'), { href: value }).click();
         break;
       case 'theme':
         dialog.close();

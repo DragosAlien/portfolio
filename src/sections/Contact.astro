@@ -37,7 +37,7 @@ const rows: Row[] = [
       <a
         href={`mailto:${profile.email}`}
         aria-label={`${t.contact.email}: ${profile.email}`}
-        class="link mt-6 inline-block text-xl font-medium tracking-tight break-all md:text-4xl"
+        class="link mt-6 inline-block text-xl font-medium tracking-tight break-all md:text-3xl lg:text-4xl"
       >
         {profile.email}
       </a>
@@ -54,7 +54,7 @@ const rows: Row[] = [
                 {r.text}
               </ExternalLink>
             ) : (
-              <a href={r.href} download={r.kind === 'download' || undefined} class="link">
+              <a href={r.href} download class="link">
                 {r.text}
               </a>
             )}

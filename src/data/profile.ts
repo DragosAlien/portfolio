@@ -13,7 +13,6 @@ export const profile = {
   location: {
     city: 'Monferrato',
     region: { en: 'Piedmont', it: 'Piemonte' } as Localized,
-    country: { en: 'Italy', it: 'Italia' } as Localized,
     countryCode: 'IT',
     timeZone: 'Europe/Rome',
   },

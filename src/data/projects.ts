@@ -12,7 +12,6 @@ export interface Project {
   tech: string[];
   repository?: string | null;
   demo?: string | null;
-  featured?: boolean;
   /** Placeholders are kept in data for planning but never rendered. */
   placeholder?: boolean;
 }
@@ -29,7 +28,6 @@ const all: Project[] = [
       it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Dragos ha scritto la maggior parte della versione attuale in Laravel e React e ne segue la gestione.',
     },
     tech: ['Laravel', 'React', 'Inertia.js', 'Redis', 'WebSockets', 'PWA'],
-    featured: true,
   },
   {
     slug: 'integrations',
@@ -42,7 +40,6 @@ const all: Project[] = [
       it: 'Connettori tra le applicazioni dei clienti e sistemi esterni: API Fluida e Tilby, servizi SOAP AHRW e file XML generati per l’import in G1.',
     },
     tech: ['PHP', 'SOAP', 'XML'],
-    featured: true,
   },
   {
     slug: 'purchase-orders',
