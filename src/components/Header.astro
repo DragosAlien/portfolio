@@ -5,6 +5,7 @@ import { profile } from '~/data/profile';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import Search from '@lucide/astro/icons/search';
+import ChevronsUpDown from '@lucide/astro/icons/chevrons-up-down';
 
 interface Props {
   locale: Locale;
@@ -13,10 +14,11 @@ interface Props {
 const { locale, path } = Astro.props;
 const t = useTranslations(locale);
 const links = [
-  { href: '#work', label: t.nav.work },
-  { href: '#experience', label: t.nav.experience },
-  { href: '#stack', label: t.nav.stack },
-  { href: '#contact', label: t.nav.contact },
+  // Numbers match each section's `index` (see Section).
+  { href: '#work', n: '02', label: t.nav.work },
+  { href: '#experience', n: '03', label: t.nav.experience },
+  { href: '#stack', n: '04', label: t.nav.stack },
+  { href: '#contact', n: '05', label: t.nav.contact },
 ];
 const initials = profile.name
   .split(' ')
@@ -24,17 +26,27 @@ const initials = profile.name
   .join('');
 ---
 
-<header class="header pointer-events-none sticky top-0 z-40 px-3 pt-4">
-  <div
-    class="pill pointer-events-auto mx-auto flex w-fit max-w-full items-center gap-1 rounded-full border border-line bg-bg/85 p-1 backdrop-blur-sm"
-  >
+<header class="header sticky top-0 z-40 border-b border-transparent bg-bg">
+  <div class="wrap flex h-14 items-center gap-1">
     <a
       href={getRelativeLocaleUrl(locale, '')}
       aria-label={profile.name}
-      class="inline-flex size-9 items-center justify-center rounded-full font-mono text-meta font-medium transition-colors duration-150 hover:text-accent"
+      class="-ml-2 inline-flex h-9 items-center rounded-md px-2 font-mono text-meta font-medium transition-colors duration-150 hover:text-accent"
     >
       {initials}
     </a>
+    <!-- Mobile: the current section, filled in by the scroll spy; opens the command menu. -->
+    <button
+      type="button"
+      data-palette-open
+      aria-haspopup="dialog"
+      class="inline-flex h-9 min-w-0 items-center gap-2 rounded-md px-2 font-mono text-meta text-muted transition-colors duration-150 hover:text-fg md:hidden"
+    >
+      <span aria-hidden="true" class="text-line-strong">/</span>
+      <span class="sr-only">{t.palette.open}:</span>
+      <span data-spy-label class="truncate text-fg">{t.nav.sections}</span>
+      <ChevronsUpDown size={14} aria-hidden="true" class="shrink-0" />
+    </button>
     <nav aria-label={t.a11y.mainNav} class="hidden md:block">
       <ul data-spy class="relative flex text-sm text-muted">
         {
@@ -42,57 +54,51 @@ const initials = profile.name
             <li>
               <a
                 href={l.href}
-                class="inline-flex h-9 items-center rounded-full px-3 transition-colors duration-150 hover:text-fg aria-[current]:text-fg"
+                class="group inline-flex h-14 items-center gap-1.5 px-3 transition-colors duration-150 hover:text-fg aria-[current]:text-fg"
               >
+                <span class="font-mono text-meta group-aria-[current]:text-accent">{l.n}</span>
                 {l.label}
               </a>
             </li>
           ))
         }
-        <span data-spy-bar aria-hidden="true" class="absolute bottom-1 left-0 h-0.5 rounded-full bg-accent opacity-0"></span>
+        <span data-spy-bar aria-hidden="true" class="absolute -bottom-px left-0 h-0.5 bg-accent opacity-0"></span>
       </ul>
     </nav>
-    <span aria-hidden="true" class="mx-1 hidden h-5 w-px bg-line md:block"></span>
-    <button
-      type="button"
-      data-palette-open
-      aria-haspopup="dialog"
-      aria-label={t.palette.open}
-      class="inline-flex h-9 items-center gap-2 rounded-full px-3 text-muted transition-colors duration-150 hover:text-fg"
-    >
-      <Search size={15} aria-hidden="true" />
-      <kbd data-shortcut class="hidden font-mono text-meta sm:inline">⌘K</kbd>
-    </button>
-    <ThemeToggle label={t.a11y.darkTheme} />
-    <LanguageSwitcher locale={locale} path={path} label={t.a11y.languageNav} />
+    <div class="-mr-2 ml-auto flex items-center gap-1">
+      <button
+        type="button"
+        data-palette-open
+        aria-haspopup="dialog"
+        aria-label={t.palette.open}
+        class="hidden h-9 items-center gap-2 rounded-md px-2 text-muted transition-colors duration-150 hover:text-fg md:inline-flex"
+      >
+        <Search size={15} aria-hidden="true" />
+        <kbd data-shortcut class="hidden font-mono text-meta sm:inline">⌘K</kbd>
+      </button>
+      <ThemeToggle label={t.a11y.darkTheme} />
+      <LanguageSwitcher locale={locale} path={path} label={t.a11y.languageNav} />
+    </div>
   </div>
 </header>
 
 <style>
-  /* The pill tucks closer to the top edge and gains a shadow once the page scrolls. CSS only. */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-      .header {
-        animation: tuck linear both;
-        animation-timeline: scroll();
-        animation-range: 0 120px;
-      }
-      .pill {
-        animation: lift linear both;
-        animation-timeline: scroll();
-        animation-range: 0 120px;
-      }
+  /* The hairline under the bar appears once the page scrolls. CSS only. */
+  @supports (animation-timeline: scroll()) {
+    .header {
+      animation: edge linear both;
+      animation-timeline: scroll();
+      animation-range: 0 48px;
     }
   }
-  @keyframes tuck {
-    to {
-      padding-top: 0.5rem;
+  @supports not (animation-timeline: scroll()) {
+    .header {
+      border-color: var(--color-line);
     }
   }
-  @keyframes lift {
+  @keyframes edge {
     to {
-      box-shadow: 0 8px 24px -12px var(--color-bg);
-      border-color: var(--color-line-strong);
+      border-color: var(--color-line);
     }
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -110,6 +116,8 @@ const initials = profile.name
   // At the very bottom the last section wins, since a short Contact never reaches the middle.
   const list = document.querySelector<HTMLElement>('[data-spy]')!;
   const bar = list.querySelector<HTMLElement>('[data-spy-bar]')!;
+  const label = document.querySelector<HTMLElement>('[data-spy-label]')!;
+  const fallback = label.textContent;
   const links = [...list.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
   const sections = [...document.querySelectorAll<HTMLElement>('main > section')];
 
@@ -121,6 +129,9 @@ const initials = profile.name
     const active = links.find((a) => a.hash === `#${current?.id}`);
     for (const a of links) a === active ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current');
     bar.style.opacity = active ? '1' : '0';
+    // The label shows any section, About included, as "01 About".
+    const heading = current?.querySelector('h2');
+    label.textContent = heading ? `${heading.previousElementSibling?.textContent ?? ''} ${heading.textContent}` : fallback;
     if (active) {
       bar.style.width = `${active.offsetWidth - 24}px`;
       bar.style.translate = `${active.parentElement!.offsetLeft + 12}px 0`;

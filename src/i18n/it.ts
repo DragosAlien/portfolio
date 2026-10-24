@@ -19,6 +19,7 @@ const it: Dictionary = {
     experience: 'Esperienza',
     stack: 'Stack',
     contact: 'Contatti',
+    sections: 'Sezioni',
   },
   hero: {
     title: 'Software Developer',

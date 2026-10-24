@@ -53,7 +53,8 @@ The content stays calm; personality lives in a few deliberate places. Keep it to
   changes accessory per section (`data-section`: top/contact wave, about glasses, work laptop, experience umbrella,
   stack helmet and hammer). Click: says the next localized line. Konami code: UFO abduction. A new section needs a pose and a perch.
   Perches go where the right side of the element is empty, so the alien never covers text.
-- **Header**: floating pill, sticky; a CSS scroll timeline tucks it up, a scroll spy slides an accent bar under the current section.
+- **Header**: full-width sticky bar on the `wrap` grid; a CSS scroll timeline fades in its bottom hairline, a scroll spy slides an accent bar along it under the current section.
+  Links carry their section number (`02 Work`), the current one in accent. On mobile the links give way to the current section (`DV / 03 Experience`), which opens the command menu.
 - **Command palette** (`components/CommandPalette.astro`): ⌘K / Ctrl+K or the header button. `<dialog>` + combobox/listbox.
   Doubles as the mobile menu. New sections and actions go in its `groups`.
 - **Micro-interactions**: tech highlight across the page (`data-tech`), Work row hover surface, square stops on the Experience line (the current one filled in accent),

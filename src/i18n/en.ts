@@ -18,6 +18,7 @@ const en = {
     experience: 'Experience',
     stack: 'Stack',
     contact: 'Contact',
+    sections: 'Sections',
   },
   hero: {
     title: 'Software Developer',
