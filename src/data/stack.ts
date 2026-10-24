@@ -39,5 +39,5 @@ export const layers: Layer[] = [
 export const tooling: Layer = {
   name: { en: 'AI & tooling', it: 'AI e tooling' },
   note: { en: 'Prototypes for document retrieval and development automation.', it: 'Prototipi per la ricerca nei documenti e l’automazione dello sviluppo.' },
-  tech: ['LLMs', 'AI agents', 'MCP', 'RAG', 'GraphRAG', 'Coding agents'],
+  tech: ['LLMs', 'AI agents', 'MCP', 'RAG', 'GraphRAG', 'Claude Code', 'Codex'],
 };

@@ -92,6 +92,12 @@ const en = {
     ],
     abducted: 'Beam me up! Back in a second.',
   },
+  notFound: {
+    title: 'Page not found — Dragos Vasiliu',
+    heading: 'This page doesn’t exist.',
+    body: 'The link may be old or mistyped.',
+    home: 'Back to the home page',
+  },
   footer: {
     builtWith: 'Built with Astro and deployed on GitHub Pages.',
     source: 'Source code',

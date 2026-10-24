@@ -93,6 +93,12 @@ const it: Dictionary = {
     ],
     abducted: 'Teletrasporto! Torno subito.',
   },
+  notFound: {
+    title: 'Pagina non trovata — Dragos Vasiliu',
+    heading: 'Questa pagina non esiste.',
+    body: 'Il link potrebbe essere vecchio o scritto male.',
+    home: 'Torna alla home',
+  },
   footer: {
     builtWith: 'Realizzato con Astro e pubblicato su GitHub Pages.',
     source: 'Codice sorgente',

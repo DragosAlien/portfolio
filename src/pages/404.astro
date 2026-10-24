@@ -1,0 +1,30 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales, useTranslations } from '~/i18n';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+// GitHub Pages serves this one file for every missing URL, so it can't know the language: it shows both.
+const en = useTranslations('en');
+---
+
+<BaseLayout locale="en" title={en.notFound.title} description={en.notFound.body} noindex>
+  <main id="main" class="wrap py-24 md:py-32">
+    <h1 class="font-mono text-meta text-muted">404</h1>
+    <div class="mt-8 space-y-12">
+      {
+        locales.map((l) => {
+          const t = useTranslations(l);
+          return (
+            <section lang={l}>
+              <h2 class="text-2xl font-medium">{t.notFound.heading}</h2>
+              <p class="mt-2 text-muted">{t.notFound.body}</p>
+              <a href={getRelativeLocaleUrl(l, '')} hreflang={l} class="link mt-4 inline-block">
+                {t.notFound.home}
+              </a>
+            </section>
+          );
+        })
+      }
+    </div>
+  </main>
+</BaseLayout>

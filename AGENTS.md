@@ -38,6 +38,7 @@ npm run preview
 ```
 src/
   pages/[...locale]/index.astro   page composition for every locale
+  pages/404.astro                  one bilingual page: Pages serves it for every missing URL
   pages/robots.txt.ts
   layouts/BaseLayout.astro         <html lang>, meta, OG, hreflang, JSON-LD
   sections/                        page sections (receive `locale`)
@@ -47,6 +48,7 @@ src/
   styles/global.css                Tailwind v4 @theme tokens, base styles, the one motion keyframe
 docs/style.md                      design, copy and localization rules
 public/cv/                         CV PDFs (links are hidden until the files exist)
+public/og.png                      1200×630 link preview; apple-touch-icon.png 180×180 (both rendered from the tokens and favicon)
 ```
 
 ## Content
