@@ -29,8 +29,8 @@ const en = {
   about: {
     heading: 'About',
     body: [
-      'At PARENTESIKUADRA Dragos builds and maintains Laravel business applications with React and Inertia.js frontends, and is the main author of many of them, Klancy among them: a multi-tenant platform built on WebSockets. He connects them to payments, webhooks, third-party APIs and SOAP services, and handles the releases himself.',
-      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates. Since 2025 he has been writing tests with PHPUnit, Pest and Vitest, and he also works on legacy PHP code.',
+      'At PARENTESIKUADRA Dragos builds and maintains Laravel business applications with React and Inertia.js frontends, and is the main author of several of them, Klancy among them: a multi-tenant platform built on WebSockets. He connects them to payments, webhooks, third-party APIs and SOAP services, and handles the releases himself.',
+      'He also looks after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, he tracks down why and fixes it there, not with a workaround. The applications run in Docker on Linux servers that he maintains and migrates. He writes tests with PHPUnit, Pest and Vitest, and he also works on legacy PHP code.',
       'He talks to clients directly, so requirements, code and support stay with one person. On the side he builds prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of his own workflow.',
     ],
     languages: 'Languages',
@@ -39,7 +39,7 @@ const en = {
   work: {
     heading: 'Selected work',
     professional: 'Professional',
-    professionalNote: 'Client and company work. The code is private, so this covers what each project does and Dragos’s part in it.',
+    professionalNote: 'A selection of the client and company projects Dragos builds and runs. The code is private, so this covers what each one does.',
     openSource: 'Open source',
     allRepos: 'All repositories on GitHub',
     repository: 'Source',

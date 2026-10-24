@@ -23,7 +23,7 @@ export const experience: Role[] = [
     points: {
       en: [
         'Develop and maintain Laravel applications in production, with React and Inertia.js frontends; main author of several of them and of the internal template new projects start from.',
-        'Contribute to Klancy, a multi-tenant application built on WebSockets, including configuration and customisation for individual clients.',
+        'Sole developer of Klancy, a multi-tenant application built on WebSockets, including configuration and customisation for individual clients.',
         'Integrate external systems: Fluida and Tilby APIs, AHRW SOAP services, and XML files generated for import into G1.',
         'Containerise applications with Docker, ship production releases, and maintain and migrate Linux/Plesk servers.',
         'Diagnose frontend, backend and API issues, including Composer and npm dependency conflicts.',
@@ -31,7 +31,7 @@ export const experience: Role[] = [
       ],
       it: [
         'Sviluppo e manutenzione di applicazioni Laravel in produzione, con frontend in React e Inertia.js; autore principale di diverse di queste e del template interno da cui partono i nuovi progetti.',
-        'Sviluppo continuativo di Klancy, applicazione multi-tenant basata su WebSocket, incluse configurazioni e personalizzazioni per i singoli clienti.',
+        'Unico sviluppatore di Klancy, applicazione multi-tenant basata su WebSocket, incluse configurazioni e personalizzazioni per i singoli clienti.',
         'Integrazioni con sistemi esterni: API Fluida e Tilby, servizi SOAP AHRW e generazione di file XML per l’import in G1.',
         'Containerizzazione con Docker, rilasci in produzione, manutenzione e migrazione di server Linux/Plesk.',
         'Diagnosi di problemi frontend, backend e API, compresi i conflitti tra dipendenze Composer e npm.',

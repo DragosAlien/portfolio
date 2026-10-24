@@ -24,8 +24,8 @@ const all: Project[] = [
     year: '2023–',
     status: { en: 'In production', it: 'In produzione' },
     description: {
-      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. Dragos wrote most of the current Laravel and React version and keeps it running.',
-      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Dragos ha scritto la maggior parte della versione attuale in Laravel e React e ne segue la gestione.',
+      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. Dragos is the only developer of the current Laravel and React version and keeps it running.',
+      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Dragos è l’unico sviluppatore della versione attuale in Laravel e React e ne segue la gestione.',
     },
     tech: ['Laravel', 'React', 'Inertia.js', 'Redis', 'WebSockets', 'PWA'],
   },
@@ -96,8 +96,8 @@ const all: Project[] = [
     year: '2026',
     status: { en: 'Live', it: 'Online' },
     description: {
-      en: 'Static, bilingual portfolio. Both languages are generated from one set of components and typed content, with no client-side framework.',
-      it: 'Portfolio statico e bilingue. Entrambe le lingue sono generate dagli stessi componenti e da contenuti tipizzati, senza framework lato client.',
+      en: 'The site you are reading. Static and bilingual: both languages come from the same components and typed content, with JavaScript only where it is needed (theme, command menu, mascot).',
+      it: 'Il sito che stai leggendo. Statico e bilingue: le due lingue escono dagli stessi componenti e da contenuti tipizzati, con JavaScript solo dove serve (tema, menu dei comandi, mascotte).',
     },
     tech: ['Astro', 'TypeScript', 'Tailwind CSS', 'GitHub Actions'],
     repository,

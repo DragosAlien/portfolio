@@ -30,8 +30,8 @@ const it: Dictionary = {
   about: {
     heading: 'Chi sono',
     body: [
-      'In PARENTESIKUADRA Dragos scrive e mantiene gestionali in Laravel con frontend React e Inertia.js, e di molti è l’autore principale: tra questi Klancy, una piattaforma multi-tenant basata su WebSocket. Li collega a pagamenti, webhook, API e servizi SOAP esterni e cura i rilasci in prima persona.',
-      'Si occupa anche di quello che succede dopo. Se una pagina è lenta, un aggiornamento delle dipendenze rompe la build o un deploy si fa ancora a mano, cerca il perché e lo sistema lì, senza toppe. Le applicazioni girano in Docker su server Linux, che mantiene e migra. Dal 2025 scrive test con PHPUnit, Pest e Vitest, e lavora anche su codice PHP legacy.',
+      'In PARENTESIKUADRA Dragos scrive e mantiene gestionali in Laravel con frontend React e Inertia.js, e di diversi è l’autore principale: tra questi Klancy, una piattaforma multi-tenant basata su WebSocket. Li collega a pagamenti, webhook, API e servizi SOAP esterni e cura i rilasci in prima persona.',
+      'Si occupa anche di quello che succede dopo. Se una pagina è lenta, un aggiornamento delle dipendenze rompe la build o un deploy si fa ancora a mano, cerca il perché e lo sistema lì, senza toppe. Le applicazioni girano in Docker su server Linux, che mantiene e migra. Scrive test con PHPUnit, Pest e Vitest, e lavora anche su codice PHP legacy.',
       'Parla direttamente con i clienti, quindi requisiti, codice e assistenza restano nelle stesse mani. In parallelo realizza prototipi con LLM, agenti AI, MCP e RAG, soprattutto per la ricerca nei documenti e per automatizzare parte del proprio lavoro.',
     ],
     languages: 'Lingue',
@@ -40,7 +40,7 @@ const it: Dictionary = {
   work: {
     heading: 'Progetti',
     professional: 'Lavoro',
-    professionalNote: 'Progetti per clienti e aziende. Il codice è privato: qui trovi cosa fa ogni progetto e qual è la parte di Dragos.',
+    professionalNote: 'Una selezione dei progetti per clienti e aziende che Dragos sviluppa e gestisce. Il codice è privato: qui trovi cosa fa ognuno.',
     openSource: 'Open source',
     allRepos: 'Tutti i repository su GitHub',
     repository: 'Codice',
@@ -50,7 +50,7 @@ const it: Dictionary = {
       commits: 'commit',
       repos: 'repository',
       since: 'primo commit',
-      lastYear: (n: string) => `${n} commit negli ultimi 12 mesi, un quadrato per giorno. Quasi tutti i repository sono privati.`,
+      lastYear: (n: string) => `${n} commit negli ultimi 12 mesi, un quadrato per giorno. La maggior parte dei repository è privata.`,
       updated: 'Aggiornato il',
     },
   },

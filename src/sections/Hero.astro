@@ -14,10 +14,7 @@ const [first, ...rest] = profile.name.split(' ');
 ---
 
 <section class="wrap pt-12 pb-14 md:pt-20 md:pb-20">
-  <p class="reveal flex items-center gap-3 font-mono text-meta text-muted" style="--i:0">
-    <span aria-hidden="true" class="pulse relative size-1.5 shrink-0 rounded-full bg-accent"></span>
-    <span>{t.hero.title} · {profile.current.company}</span>
-  </p>
+  <p class="reveal font-mono text-meta text-muted" style="--i:0">{t.hero.title} · {profile.current.company}</p>
 
   <!-- The alien sits on the first name (data-perch, see Alien); the line box starts above the capitals. -->
   <h1 class="reveal mt-16 text-display font-medium uppercase md:mt-14" style="--i:1">

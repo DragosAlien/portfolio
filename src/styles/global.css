@@ -127,23 +127,6 @@
     }
   }
 
-  /* Current role: a slow pulse on its timeline dot. */
-  .pulse::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: var(--color-accent);
-    animation: ping 2.4s var(--ease-out) infinite;
-  }
-  @keyframes ping {
-    70%,
-    100% {
-      transform: scale(2.6);
-      opacity: 0;
-    }
-  }
-
   /* Theme switch: the new theme grows out of the toggle (see ThemeToggle). */
   ::view-transition-old(root),
   ::view-transition-new(root) {
