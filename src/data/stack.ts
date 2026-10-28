@@ -10,13 +10,13 @@ export interface Layer {
 export const layers: Layer[] = [
   {
     name: { en: 'Interface', it: 'Interfaccia' },
-    note: { en: 'Web and desktop UIs, data-heavy tables, responsive layouts.', it: 'Interfacce web e desktop, tabelle con molti dati, layout responsive.' },
-    tech: ['React', 'Inertia.js', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS', 'TanStack Table', 'PWA', 'Electron'],
+    note: { en: 'Web, desktop and mobile UIs, data-heavy tables, responsive layouts.', it: 'Interfacce web, desktop e mobile, tabelle con molti dati, layout responsive.' },
+    tech: ['React', 'Inertia.js', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS', 'TanStack Table', 'PWA', 'Electron', 'React Native'],
   },
   {
     name: { en: 'Application', it: 'Applicazione' },
     note: { en: 'Business logic, background work, real-time, tests and static analysis.', it: 'Logica applicativa, processi in background, tempo reale, test e analisi statica.' },
-    tech: ['PHP', 'Laravel', 'Laravel Reverb', 'Node.js', 'Fastify', 'BullMQ', 'Python', 'FastAPI', 'Composer', 'npm', 'PHPUnit', 'Pest', 'Vitest', 'PHPStan'],
+    tech: ['PHP', 'Laravel', 'Laravel Reverb', 'Drupal', 'Node.js', 'Fastify', 'BullMQ', 'Python', 'FastAPI', 'Composer', 'npm', 'PHPUnit', 'Pest', 'Vitest', 'PHPStan'],
   },
   {
     name: { en: 'Data', it: 'Dati' },
@@ -26,7 +26,7 @@ export const layers: Layer[] = [
   {
     name: { en: 'Integrations', it: 'Integrazioni' },
     note: { en: 'Talking to third-party systems.', it: 'Comunicazione con sistemi di terze parti.' },
-    tech: ['REST', 'Webhooks', 'Stripe', 'SOAP', 'WebSockets', 'XML'],
+    tech: ['REST', 'Webhooks', 'Stripe', 'SOAP', 'WebSockets', 'XML', 'Telegram'],
   },
   {
     name: { en: 'Systems', it: 'Sistemi' },

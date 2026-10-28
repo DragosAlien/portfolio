@@ -2,9 +2,9 @@ import type { Dictionary } from './en';
 
 const it: Dictionary = {
   meta: {
-    title: 'Dragos Vasiliu — Software Developer',
+    title: 'Dragos Vasiliu — Full Stack Developer',
     description:
-      'Dragos Vasiliu, Software Developer. Applicazioni web in produzione, integrazioni con sistemi esterni, server Linux, rilasci automatizzati e strumenti AI.',
+      'Dragos Vasiliu, Full Stack Developer. Applicazioni web in produzione, integrazioni con sistemi esterni, server Linux, rilasci automatizzati e strumenti AI.',
     ogLocale: 'it_IT',
   },
   a11y: {
@@ -22,7 +22,7 @@ const it: Dictionary = {
     sections: 'Sezioni',
   },
   hero: {
-    title: 'Software Developer',
+    title: 'Full Stack Developer',
     lead: 'Lavoro su tutto lo stack, dove serve: le applicazioni web che i clienti usano ogni giorno, le integrazioni con sistemi esterni, i server Linux su cui girano e le pipeline che le rilasciano. In parallelo, strumenti AI.',
     viewWork: 'Vedi i progetti',
     downloadCv: 'Scarica CV',
@@ -33,7 +33,7 @@ const it: Dictionary = {
     body: [
       'In PARENTESIKUADRA scrivo e mantengo gestionali in Laravel con frontend React e Inertia.js, e di diversi sono l’autore principale: tra questi Klancy, una piattaforma multi-tenant basata su WebSocket. Li collego a pagamenti, webhook, API e servizi SOAP esterni e curo i rilasci in prima persona.',
       'Mi occupo anche di quello che succede dopo. Se una pagina è lenta, un aggiornamento delle dipendenze rompe la build o un deploy si fa ancora a mano, cerco il perché e lo sistemo lì, senza toppe. Le applicazioni girano in Docker su server Linux, che mantengo e migro. Scrivo test con PHPUnit, Pest e Vitest, e lavoro anche su codice PHP legacy.',
-      'Parlo direttamente con i clienti, quindi requisiti, codice e assistenza restano nelle stesse mani. In parallelo realizzo prototipi con LLM, agenti AI, MCP e RAG, soprattutto per la ricerca nei documenti e per automatizzare parte del mio lavoro.',
+      'Parlo direttamente con i clienti, quindi requisiti, codice e assistenza restano nelle stesse mani. Con i colleghi lavoro su backend e frontend condivisi a sprint periodici, e tra il 2025 e il 2026 ho contribuito alla formazione di uno sviluppatore junior. In parallelo realizzo prototipi con LLM, agenti AI, MCP e RAG, soprattutto per la ricerca nei documenti e per automatizzare parte del mio lavoro.',
     ],
     languages: 'Lingue',
     education: 'Formazione',

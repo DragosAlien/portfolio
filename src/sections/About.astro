@@ -32,10 +32,12 @@ const t = useTranslations(locale);
     </div>
     <div>
       <dt class="font-mono text-meta text-muted">{t.about.education}</dt>
-      <dd class="mt-2 text-sm">
-        <p>{profile.education.title[locale]}</p>
-        <p class="text-muted">{profile.education.school}, {profile.education.years}</p>
-      </dd>
+      {profile.education.map((e) => (
+        <dd class="mt-2 text-sm">
+          <p>{e.title[locale]}</p>
+          <p class="text-muted">{e.school}, {e.years}</p>
+        </dd>
+      ))}
     </div>
   </dl>
 </Section>

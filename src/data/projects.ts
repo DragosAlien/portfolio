@@ -24,8 +24,8 @@ const all: Project[] = [
     year: '2023–',
     status: { en: 'In production', it: 'In produzione' },
     description: {
-      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. I am the only developer of the current Laravel and React version and keep it running.',
-      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Sono l’unico sviluppatore della versione attuale in Laravel e React e ne seguo la gestione.',
+      en: 'Subscription SaaS for restaurant kitchens: a live order dashboard, kitchen exit groups, network printer control and orders imported from the Tilby POS. Each tenant gets its own database, provisioned automatically. Dozens of clients use it, with thousands of orders a day. I migrated it from legacy PHP, where every client had its own repository, to one codebase configured per tenant, with WebSockets in place of polling. I am the only developer and keep it running.',
+      it: 'SaaS in abbonamento per le cucine dei ristoranti: dashboard degli ordini in tempo reale, gruppi di uscita, controllo delle stampanti di rete e ordini importati dalla cassa Tilby. Ogni tenant ha il suo database, creato in automatico. Lo usano decine di clienti, con migliaia di ordini al giorno. L’ho migrato da PHP legacy, dove ogni cliente aveva il suo repository, a un’unica codebase configurabile per tenant, con i WebSocket al posto del polling. Sono l’unico sviluppatore e ne seguo la gestione.',
     },
     tech: ['Laravel', 'React', 'Inertia.js', 'Redis', 'WebSockets', 'PWA'],
   },
@@ -72,8 +72,8 @@ const all: Project[] = [
     year: '2026–',
     status: { en: 'Built in-house', it: 'Sviluppo interno' },
     description: {
-      en: 'Installs and maintains a vendor’s Tomcat-based HR applications on client servers, over SSH and VPN. Only allowlisted scripts run, as tracked jobs with live logs. Credentials are encrypted, backups and restores go through a queue, and installs can be dry-run first.',
-      it: 'Installa e mantiene le applicazioni HR su Tomcat di un fornitore sui server dei clienti, via SSH e VPN. Girano solo script ammessi, come job tracciati con log in diretta. Le credenziali sono cifrate, backup e ripristini passano da una coda e le installazioni si possono provare prima a vuoto.',
+      en: 'Installs and maintains a vendor’s Tomcat-based accounting suite on client servers, over SSH and VPN. Only allowlisted scripts run, as tracked jobs with live logs. Credentials are encrypted, backups and restores go through a queue, and installs can be dry-run first. An install that took 5–7 hours by hand now takes under 20 minutes.',
+      it: 'Installa e mantiene la suite di contabilità su Tomcat di un fornitore sui server dei clienti, via SSH e VPN. Girano solo script ammessi, come job tracciati con log in diretta. Le credenziali sono cifrate, backup e ripristini passano da una coda e le installazioni si possono provare prima a vuoto. Un’installazione che a mano richiedeva 5–7 ore ora ne richiede meno di 20 minuti.',
     },
     tech: ['React', 'Node.js', 'Fastify', 'BullMQ', 'Redis', 'PostgreSQL', 'Docker'],
   },
@@ -88,6 +88,18 @@ const all: Project[] = [
       it: 'Assistente locale che risponde a domande sulla documentazione di un gestionale e cita le fonti. Una pipeline di ingestione riproducibile reindicizza solo ciò che è cambiato; l’API è compatibile con OpenAI e gira su Metal, CUDA o CPU. Il prossimo passo è il retrieval a grafo.',
     },
     tech: ['Python', 'RAG', 'Qdrant', 'llama.cpp', 'Docker'],
+  },
+  {
+    slug: 'short-term-rentals',
+    name: { en: 'Short-term rental management', it: 'Gestione di affitti brevi' },
+    category: 'professional',
+    year: '2023',
+    status: { en: 'Internship', it: 'Tirocinio' },
+    description: {
+      en: 'SaaS for a company that manages holiday apartments on behalf of their owners. Reservations from Booking and Airbnb, Telegram messages for the manager and the cleaning staff, tourist tax, issued invoices exported to G1, and monthly statements with charts showing each owner what their apartments earned.',
+      it: 'SaaS per un’azienda che gestisce appartamenti per affitti brevi per conto dei proprietari. Prenotazioni da Booking e Airbnb, messaggi Telegram per il gestore e il personale delle pulizie, tassa di soggiorno, fatture emesse esportate verso G1 e rendiconti mensili con grafici che mostrano a ogni proprietario quanto hanno reso i suoi appartamenti.',
+    },
+    tech: ['Laravel', 'React', 'Inertia.js', 'Telegram', 'XML'],
   },
   {
     slug: 'portfolio',

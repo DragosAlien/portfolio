@@ -1,9 +1,9 @@
 // UI copy for English. The Italian file must satisfy the same shape (see `Dictionary`).
 const en = {
   meta: {
-    title: 'Dragos Vasiliu — Software Developer',
+    title: 'Dragos Vasiliu — Full Stack Developer',
     description:
-      'Dragos Vasiliu, Software Developer. Web applications in production, integrations with external systems, Linux servers, automated releases and AI tooling.',
+      'Dragos Vasiliu, Full Stack Developer. Web applications in production, integrations with external systems, Linux servers, automated releases and AI tooling.',
     ogLocale: 'en_GB',
   },
   a11y: {
@@ -21,7 +21,7 @@ const en = {
     sections: 'Sections',
   },
   hero: {
-    title: 'Software Developer',
+    title: 'Full Stack Developer',
     lead: 'I work across the stack, wherever the problem is: the web applications clients use every day, their integrations with external systems, the Linux servers they run on and the pipelines that ship them. On the side, AI tools.',
     viewWork: 'View work',
     downloadCv: 'Download CV',
@@ -32,7 +32,7 @@ const en = {
     body: [
       'At PARENTESIKUADRA I build and maintain Laravel business applications with React and Inertia.js frontends, and I am the main author of several of them, Klancy among them: a multi-tenant platform built on WebSockets. I connect them to payments, webhooks, third-party APIs and SOAP services, and I handle the releases myself.',
       'I also look after what happens once they are live. When a page is slow, a dependency upgrade breaks the build or a deploy is still done by hand, I track down why and fix it there, not with a workaround. The applications run in Docker on Linux servers that I maintain and migrate. I write tests with PHPUnit, Pest and Vitest, and I also work on legacy PHP code.',
-      'I talk to clients directly, so requirements, code and support stay with one person. On the side I build prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of my own workflow.',
+      'I talk to clients directly, so requirements, code and support stay with one person. With colleagues I work on shared backends and frontends in periodic sprints, and in 2025–2026 I helped train a junior developer. On the side I build prototypes with LLMs, AI agents, MCP and RAG, mostly to search documents and to automate parts of my own workflow.',
     ],
     languages: 'Languages',
     education: 'Education',

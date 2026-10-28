@@ -44,7 +44,7 @@ const jsonLd = {
       },
       knowsLanguage: ['it', 'ro', 'en'],
       worksFor: { '@type': 'Organization', name: profile.current.company },
-      alumniOf: { '@type': 'EducationalOrganization', name: profile.education.school },
+      alumniOf: profile.education.map((e) => ({ '@type': 'EducationalOrganization', name: e.school })),
       knowsAbout: [...new Set([...layers, tooling].flatMap((l) => l.tech))],
     },
     {

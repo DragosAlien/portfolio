@@ -9,14 +9,14 @@ import type { Localized } from '~/i18n';
  */
 export const profile = {
   name: 'Dragos Vasiliu',
-  jobTitle: 'Software Developer',
+  jobTitle: 'Full Stack Developer',
   location: {
     city: 'Monferrato',
     region: { en: 'Piedmont', it: 'Piemonte' } as Localized,
     countryCode: 'IT',
     timeZone: 'Europe/Rome',
   },
-  current: { role: 'Software Developer', company: 'PARENTESIKUADRA' },
+  current: { role: 'Full Stack Developer', company: 'PARENTESIKUADRA' },
 
   email: 'vasiliu.petru.dragos@gmail.com' as string | null,
   github: 'https://github.com/DragosAlien' as string | null,
@@ -31,11 +31,18 @@ export const profile = {
     { name: { en: 'English', it: 'Inglese' }, level: { en: 'B2', it: 'B2' } },
   ] satisfies { name: Localized; level: Localized }[],
 
-  education: {
-    title: { en: 'Diploma in Computer Science', it: 'Diploma in Informatica' } as Localized,
-    school: 'ITIS Ascanio Sobrero, Casale Monferrato',
-    years: '2014–2019',
-  },
+  education: [
+    {
+      title: { en: 'Computer Science degree course, three years attended', it: 'Corso di laurea in Informatica, tre anni frequentati' },
+      school: 'Università degli Studi di Torino',
+      years: '2019–2022',
+    },
+    {
+      title: { en: 'Diploma in Computer Science', it: 'Diploma in Informatica' },
+      school: 'ITIS Ascanio Sobrero, Casale Monferrato',
+      years: '2014–2019',
+    },
+  ] satisfies { title: Localized; school: string; years: string }[],
 };
 
 /** This site's repository. */

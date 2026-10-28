@@ -1,6 +1,6 @@
 # Portfolio style
 
-A technical personal portfolio for Dragos Vasiliu, Software Developer (a generalist: web apps, integrations, Linux, Docker, AI tooling).
+A technical personal portfolio for Dragos Vasiliu, Full Stack Developer (a generalist: web apps, integrations, Linux, Docker, AI tooling).
 Readers: recruiters, engineering teams, developers arriving from GitHub. It should read like the site of someone who
 builds and operates software, not a marketing page.
 
